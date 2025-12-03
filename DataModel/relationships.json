@@ -1,0 +1,280 @@
+{
+  "name": "DotDesignPop_DataModel",
+  "description": "Data model for DotDesignPop Power BI Dashboard",
+  "tables": [
+    {
+      "name": "Date_Dimension",
+      "description": "Date dimension table for time intelligence",
+      "columns": ["Date", "Year", "Quarter", "Month", "Month_Name", "Week", "Day", "Day_Name", "Day_of_Year", "Is_Weekend", "Fiscal_Year", "Fiscal_Quarter"],
+      "dateTableColumn": "Date",
+      "isDateTable": true
+    },
+    {
+      "name": "Geography",
+      "description": "Location dimension",
+      "columns": ["Location_ID", "City", "State", "State_Code", "Region", "Latitude", "Longitude", "Population", "Market_Size"]
+    },
+    {
+      "name": "SKU_Master",
+      "description": "Product master data",
+      "columns": ["SKU_Code", "Product_Name", "Category", "Product_Line", "Unit_Cost", "Unit_Price", "Margin_Percent", "Warranty_Period_Days", "Weight_KG", "Dimensions_CM", "Energy_Rating"]
+    },
+    {
+      "name": "Clients",
+      "description": "Customer master data",
+      "columns": ["Client_ID", "Client_Name", "Client_Type", "Location_ID", "Account_Manager", "Credit_Limit", "Payment_Terms_Days", "Customer_Since", "VIP_Status"]
+    },
+    {
+      "name": "Inventory",
+      "description": "Inventory tracking",
+      "columns": ["Serial_Number", "SKU_Code", "Received_Date", "Status", "Outbound_Date", "Location", "Location_ID", "Job_Number", "Condition", "Last_Maintenance"]
+    },
+    {
+      "name": "Shipments",
+      "description": "Shipment records",
+      "columns": ["Shipment_ID", "Serial_Number", "SKU_Code", "Job_Number", "Client_ID", "Client_Name", "Location_ID", "Ship_Date", "Delivery_Date", "Shipment_Type", "Delivery_Status", "Carrier", "Tracking_Number", "Shipping_Cost", "POD_Received", "Delivery_Rating"]
+    },
+    {
+      "name": "Service_Records",
+      "description": "Service and maintenance records",
+      "columns": ["Service_ID", "Serial_Number", "SKU_Code", "Service_Request_Date", "Service_Status", "Issue_Type", "Priority", "Warranty_Status", "Technician_Assigned", "Scheduled_Date", "Completed_Date", "Labor_Hours", "Labor_Cost", "Parts_Cost", "Total_Cost", "Escalated_to_DDP", "Customer_Satisfaction"]
+    },
+    {
+      "name": "Jobs",
+      "description": "Job orders and projects",
+      "columns": ["Job_Number", "Client_ID", "Client_Name", "Location_ID", "Job_Description", "Units_Ordered", "Order_Date", "Target_Delivery", "Actual_Delivery", "Job_Status", "Project_Manager", "Job_Value", "Payment_Status"]
+    },
+    {
+      "name": "Budget_Targets",
+      "description": "Monthly budget and targets",
+      "columns": ["Year", "Month", "Month_Name", "Target_Shipments", "Target_Revenue", "Target_Service_Completion_Rate", "Target_Customer_Satisfaction", "Budget_Shipping_Cost", "Budget_Service_Cost"]
+    },
+    {
+      "name": "Sales_Transactions",
+      "description": "Sales transaction records",
+      "columns": ["Transaction_ID", "Shipment_ID", "Serial_Number", "SKU_Code", "Client_ID", "Transaction_Date", "Unit_Price", "Discount", "Net_Price", "Unit_Cost", "Gross_Profit", "Profit_Margin_Percent", "Payment_Method", "Invoice_Status"]
+    },
+    {
+      "name": "Performance_Over_Time",
+      "description": "Weekly performance KPIs",
+      "columns": ["Week_Ending", "Units_Shipped", "Units_Delivered", "Average_Delivery_Days", "Service_Requests", "Service_Completion_Rate", "Average_Service_Days", "Customer_Satisfaction", "Warranty_Claims", "Revenue"]
+    },
+    {
+      "name": "Measures",
+      "description": "DAX Measures table",
+      "isMeasureTable": true
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Date_to_Shipments",
+      "fromTable": "Date_Dimension",
+      "fromColumn": "Date",
+      "toTable": "Shipments",
+      "toColumn": "Ship_Date",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Date_to_SalesTransactions",
+      "fromTable": "Date_Dimension",
+      "fromColumn": "Date",
+      "toTable": "Sales_Transactions",
+      "toColumn": "Transaction_Date",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Date_to_ServiceRecords",
+      "fromTable": "Date_Dimension",
+      "fromColumn": "Date",
+      "toTable": "Service_Records",
+      "toColumn": "Service_Request_Date",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Date_to_Jobs",
+      "fromTable": "Date_Dimension",
+      "fromColumn": "Date",
+      "toTable": "Jobs",
+      "toColumn": "Order_Date",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Date_to_Inventory",
+      "fromTable": "Date_Dimension",
+      "fromColumn": "Date",
+      "toTable": "Inventory",
+      "toColumn": "Received_Date",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Date_to_Performance",
+      "fromTable": "Date_Dimension",
+      "fromColumn": "Date",
+      "toTable": "Performance_Over_Time",
+      "toColumn": "Week_Ending",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Geography_to_Clients",
+      "fromTable": "Geography",
+      "fromColumn": "Location_ID",
+      "toTable": "Clients",
+      "toColumn": "Location_ID",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "bothDirections",
+      "isActive": true
+    },
+    {
+      "name": "Geography_to_Shipments",
+      "fromTable": "Geography",
+      "fromColumn": "Location_ID",
+      "toTable": "Shipments",
+      "toColumn": "Location_ID",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Geography_to_Jobs",
+      "fromTable": "Geography",
+      "fromColumn": "Location_ID",
+      "toTable": "Jobs",
+      "toColumn": "Location_ID",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "SKU_to_Inventory",
+      "fromTable": "SKU_Master",
+      "fromColumn": "SKU_Code",
+      "toTable": "Inventory",
+      "toColumn": "SKU_Code",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "bothDirections",
+      "isActive": true
+    },
+    {
+      "name": "SKU_to_Shipments",
+      "fromTable": "SKU_Master",
+      "fromColumn": "SKU_Code",
+      "toTable": "Shipments",
+      "toColumn": "SKU_Code",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "SKU_to_ServiceRecords",
+      "fromTable": "SKU_Master",
+      "fromColumn": "SKU_Code",
+      "toTable": "Service_Records",
+      "toColumn": "SKU_Code",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "SKU_to_SalesTransactions",
+      "fromTable": "SKU_Master",
+      "fromColumn": "SKU_Code",
+      "toTable": "Sales_Transactions",
+      "toColumn": "SKU_Code",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Clients_to_Jobs",
+      "fromTable": "Clients",
+      "fromColumn": "Client_ID",
+      "toTable": "Jobs",
+      "toColumn": "Client_ID",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Clients_to_Shipments",
+      "fromTable": "Clients",
+      "fromColumn": "Client_ID",
+      "toTable": "Shipments",
+      "toColumn": "Client_ID",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Clients_to_SalesTransactions",
+      "fromTable": "Clients",
+      "fromColumn": "Client_ID",
+      "toTable": "Sales_Transactions",
+      "toColumn": "Client_ID",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Inventory_to_Shipments",
+      "fromTable": "Inventory",
+      "fromColumn": "Serial_Number",
+      "toTable": "Shipments",
+      "toColumn": "Serial_Number",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Inventory_to_ServiceRecords",
+      "fromTable": "Inventory",
+      "fromColumn": "Serial_Number",
+      "toTable": "Service_Records",
+      "toColumn": "Serial_Number",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Shipments_to_SalesTransactions",
+      "fromTable": "Shipments",
+      "fromColumn": "Shipment_ID",
+      "toTable": "Sales_Transactions",
+      "toColumn": "Shipment_ID",
+      "cardinality": "oneToOne",
+      "crossFilteringBehavior": "bothDirections",
+      "isActive": true
+    },
+    {
+      "name": "Jobs_to_Shipments",
+      "fromTable": "Jobs",
+      "fromColumn": "Job_Number",
+      "toTable": "Shipments",
+      "toColumn": "Job_Number",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    },
+    {
+      "name": "Jobs_to_Inventory",
+      "fromTable": "Jobs",
+      "fromColumn": "Job_Number",
+      "toTable": "Inventory",
+      "toColumn": "Job_Number",
+      "cardinality": "oneToMany",
+      "crossFilteringBehavior": "singleDirection",
+      "isActive": true
+    }
+  ]
+}

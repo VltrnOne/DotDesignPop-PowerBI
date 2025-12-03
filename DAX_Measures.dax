@@ -1,0 +1,342 @@
+// =============================================================================
+// DOTDESIGNPOP POWER BI - DAX MEASURES
+// Generated for Power BI Import
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// FOLDER: Revenue & Financial
+// -----------------------------------------------------------------------------
+
+Total Revenue =
+SUM(Sales_Transactions[Net_Price])
+
+Total Cost =
+SUM(Sales_Transactions[Unit_Cost])
+
+Gross Profit =
+[Total Revenue] - [Total Cost]
+
+Profit Margin % =
+DIVIDE([Gross Profit], [Total Revenue], 0) * 100
+
+Avg Transaction Value =
+AVERAGE(Sales_Transactions[Net_Price])
+
+Total Discounts =
+SUM(Sales_Transactions[Discount])
+
+// -----------------------------------------------------------------------------
+// FOLDER: Inventory
+// -----------------------------------------------------------------------------
+
+Units in Stock =
+CALCULATE(
+    COUNTROWS(Inventory),
+    Inventory[Status] = "In Stock"
+)
+
+Units Shipped =
+CALCULATE(
+    COUNTROWS(Inventory),
+    Inventory[Status] IN {"Shipped", "Delivered", "In Transit"}
+)
+
+Inventory Value =
+SUMX(
+    Inventory,
+    RELATED(SKU_Master[Unit_Cost])
+)
+
+Stock Count =
+COUNTROWS(Inventory)
+
+Avg Days in Stock =
+AVERAGEX(
+    FILTER(Inventory, Inventory[Status] = "In Stock"),
+    DATEDIFF(Inventory[Received_Date], TODAY(), DAY)
+)
+
+// -----------------------------------------------------------------------------
+// FOLDER: Shipments
+// -----------------------------------------------------------------------------
+
+Total Shipments =
+COUNTROWS(Shipments)
+
+Delivered Shipments =
+CALCULATE(
+    COUNTROWS(Shipments),
+    Shipments[Delivery_Status] = "Delivered"
+)
+
+On-Time Delivery % =
+VAR DeliveredOnTime =
+    CALCULATE(
+        COUNTROWS(Shipments),
+        Shipments[Delivery_Status] = "Delivered",
+        DATEDIFF(Shipments[Ship_Date], Shipments[Delivery_Date], DAY) <= 7
+    )
+VAR TotalDelivered = [Delivered Shipments]
+RETURN
+    DIVIDE(DeliveredOnTime, TotalDelivered, 0) * 100
+
+Avg Delivery Days =
+AVERAGEX(
+    FILTER(Shipments, Shipments[Delivery_Status] = "Delivered"),
+    DATEDIFF(Shipments[Ship_Date], Shipments[Delivery_Date], DAY)
+)
+
+Total Shipping Cost =
+SUM(Shipments[Shipping_Cost])
+
+Avg Shipping Cost =
+AVERAGE(Shipments[Shipping_Cost])
+
+// -----------------------------------------------------------------------------
+// FOLDER: Service
+// -----------------------------------------------------------------------------
+
+Total Service Requests =
+COUNTROWS(Service_Records)
+
+Completed Services =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Service_Status] = "Completed"
+)
+
+Service Completion % =
+DIVIDE([Completed Services], [Total Service Requests], 0) * 100
+
+Avg Service Cost =
+AVERAGE(Service_Records[Total_Cost])
+
+Warranty Claims =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Warranty_Status] = "Under Warranty"
+)
+
+Warranty Claim % =
+DIVIDE([Warranty Claims], [Total Service Requests], 0) * 100
+
+Avg Service Days =
+AVERAGEX(
+    FILTER(Service_Records, Service_Records[Service_Status] = "Completed"),
+    DATEDIFF(Service_Records[Service_Request_Date], Service_Records[Completed_Date], DAY)
+)
+
+Total Labor Hours =
+SUM(Service_Records[Labor_Hours])
+
+Service Revenue =
+SUM(Service_Records[Total_Cost])
+
+// -----------------------------------------------------------------------------
+// FOLDER: Time Intelligence
+// -----------------------------------------------------------------------------
+
+Revenue YTD =
+TOTALYTD([Total Revenue], Date_Dimension[Date])
+
+Revenue SPLY =
+CALCULATE(
+    [Total Revenue],
+    SAMEPERIODLASTYEAR(Date_Dimension[Date])
+)
+
+Revenue YoY Growth =
+VAR CurrentYear = [Total Revenue]
+VAR LastYear = [Revenue SPLY]
+RETURN
+    DIVIDE(CurrentYear - LastYear, LastYear, 0) * 100
+
+Revenue YoY Change =
+[Total Revenue] - [Revenue SPLY]
+
+Revenue QTD =
+TOTALQTD([Total Revenue], Date_Dimension[Date])
+
+Revenue MTD =
+TOTALMTD([Total Revenue], Date_Dimension[Date])
+
+Revenue Previous Month =
+CALCULATE(
+    [Total Revenue],
+    PREVIOUSMONTH(Date_Dimension[Date])
+)
+
+Revenue MoM % =
+VAR CurrentMonth = [Total Revenue]
+VAR PreviousMonth = [Revenue Previous Month]
+RETURN
+    DIVIDE(CurrentMonth - PreviousMonth, PreviousMonth, 0) * 100
+
+Revenue 3M Avg =
+AVERAGEX(
+    DATESINPERIOD(
+        Date_Dimension[Date],
+        LASTDATE(Date_Dimension[Date]),
+        -3,
+        MONTH
+    ),
+    [Total Revenue]
+)
+
+Shipments 7D Avg =
+AVERAGEX(
+    DATESINPERIOD(
+        Date_Dimension[Date],
+        LASTDATE(Date_Dimension[Date]),
+        -7,
+        DAY
+    ),
+    [Total Shipments]
+)
+
+// -----------------------------------------------------------------------------
+// FOLDER: Customer Analytics
+// -----------------------------------------------------------------------------
+
+Customer LTV =
+SUMX(
+    VALUES(Clients[Client_ID]),
+    CALCULATE([Total Revenue])
+)
+
+Avg Revenue per Customer =
+DIVIDE([Total Revenue], DISTINCTCOUNT(Sales_Transactions[Client_ID]), 0)
+
+VIP Revenue =
+CALCULATE(
+    [Total Revenue],
+    Clients[VIP_Status] IN {"Gold", "Platinum"}
+)
+
+VIP Revenue % =
+DIVIDE([VIP Revenue], [Total Revenue], 0) * 100
+
+Top Customer Revenue =
+VAR TopCustomerCount = CEILING(DISTINCTCOUNT(Clients[Client_ID]) * 0.1, 1)
+VAR TopCustomers =
+    TOPN(
+        TopCustomerCount,
+        VALUES(Clients[Client_ID]),
+        [Total Revenue],
+        DESC
+    )
+RETURN
+    CALCULATE([Total Revenue], TopCustomers)
+
+// -----------------------------------------------------------------------------
+// FOLDER: Product Performance
+// -----------------------------------------------------------------------------
+
+Best SKU =
+FIRSTNONBLANK(
+    TOPN(1, VALUES(SKU_Master[Product_Name]), [Units Shipped], DESC),
+    1
+)
+
+SKU Revenue % =
+DIVIDE(
+    [Total Revenue],
+    CALCULATE([Total Revenue], ALL(SKU_Master)),
+    0
+) * 100
+
+Product Mix Index =
+SUMX(
+    VALUES(SKU_Master[SKU_Code]),
+    POWER([SKU Revenue %] / 100, 2)
+)
+
+// -----------------------------------------------------------------------------
+// FOLDER: Variance Analysis
+// -----------------------------------------------------------------------------
+
+Revenue Variance =
+VAR ActualRevenue = [Total Revenue]
+VAR BudgetRevenue = SUM(Budget_Targets[Target_Revenue])
+RETURN
+    ActualRevenue - BudgetRevenue
+
+Revenue Variance % =
+DIVIDE([Revenue Variance], SUM(Budget_Targets[Target_Revenue]), 0) * 100
+
+Shipments Variance =
+[Total Shipments] - SUM(Budget_Targets[Target_Shipments])
+
+Service Performance =
+[Service Completion %] - AVERAGE(Budget_Targets[Target_Service_Completion_Rate])
+
+// -----------------------------------------------------------------------------
+// FOLDER: Regional Performance
+// -----------------------------------------------------------------------------
+
+Regional Market Share % =
+DIVIDE(
+    [Total Revenue],
+    CALCULATE([Total Revenue], ALL(Geography[Region])),
+    0
+) * 100
+
+Region Rank =
+RANKX(
+    ALL(Geography[Region]),
+    [Total Revenue],
+    ,
+    DESC,
+    Dense
+)
+
+Top Region =
+FIRSTNONBLANK(
+    TOPN(1, VALUES(Geography[Region]), [Total Revenue], DESC),
+    1
+)
+
+// -----------------------------------------------------------------------------
+// FOLDER: KPI Status
+// -----------------------------------------------------------------------------
+
+KPI Status =
+SWITCH(
+    TRUE(),
+    [Revenue YoY Growth] >= 20, "Excellent",
+    [Revenue YoY Growth] >= 10, "Good",
+    [Revenue YoY Growth] >= 0, "Fair",
+    "Poor"
+)
+
+Service SLA Status =
+IF([Service Completion %] >= 90, "Met", "Not Met")
+
+Delivery Status =
+SWITCH(
+    TRUE(),
+    [On-Time Delivery %] >= 95, "Excellent",
+    [On-Time Delivery %] >= 85, "Good",
+    [On-Time Delivery %] >= 75, "Fair",
+    "Poor"
+)
+
+Revenue Achievement % =
+DIVIDE([Total Revenue], SUM(Budget_Targets[Target_Revenue]), 0) * 100
+
+Target Status =
+IF([Revenue Achievement %] >= 100, "Target Met", "Below Target")
+
+// -----------------------------------------------------------------------------
+// FOLDER: Customer Satisfaction
+// -----------------------------------------------------------------------------
+
+Customer Satisfaction =
+AVERAGE(Shipments[Delivery_Rating])
+
+Avg Customer Satisfaction =
+AVERAGE(Service_Records[Customer_Satisfaction])
+
+// =============================================================================
+// END OF MEASURES
+// =============================================================================

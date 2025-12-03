@@ -1,0 +1,753 @@
+{
+  "name": "DotDesignPop_Dashboard",
+  "description": "Complete Power BI Dashboard for DotDesign Pop Commercial Coolers",
+  "version": "1.0",
+  "author": "VLTRN",
+  "createdDate": "2025-12-04",
+  "theme": "DotDesignPop_Theme.json",
+  "pageSize": {
+    "type": "Widescreen",
+    "width": 1280,
+    "height": 720
+  },
+  "pages": [
+    {
+      "name": "Executive Dashboard",
+      "displayName": "Home",
+      "ordinal": 0,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "card_TotalRevenue",
+          "type": "card",
+          "position": {"x": 20, "y": 80, "width": 200, "height": 120},
+          "config": {
+            "title": "Total Revenue",
+            "dataField": "[Total Revenue]",
+            "format": "$#,##0"
+          }
+        },
+        {
+          "name": "card_GrossProfit",
+          "type": "card",
+          "position": {"x": 240, "y": 80, "width": 200, "height": 120},
+          "config": {
+            "title": "Gross Profit",
+            "dataField": "[Gross Profit]",
+            "format": "$#,##0"
+          }
+        },
+        {
+          "name": "card_ProfitMargin",
+          "type": "card",
+          "position": {"x": 460, "y": 80, "width": 200, "height": 120},
+          "config": {
+            "title": "Profit Margin",
+            "dataField": "[Profit Margin %]",
+            "format": "#,##0.0%"
+          }
+        },
+        {
+          "name": "card_YoYGrowth",
+          "type": "card",
+          "position": {"x": 680, "y": 80, "width": 200, "height": 120},
+          "config": {
+            "title": "YoY Growth",
+            "dataField": "[Revenue YoY Growth]",
+            "format": "#,##0.0%",
+            "conditionalFormatting": {
+              "positive": "#10B981",
+              "negative": "#EF4444"
+            }
+          }
+        },
+        {
+          "name": "lineChart_RevenueTrend",
+          "type": "lineChart",
+          "position": {"x": 20, "y": 220, "width": 560, "height": 280},
+          "config": {
+            "title": "Revenue Trend - Current vs Last Year",
+            "xAxis": "Date_Dimension[Month_Name]",
+            "yAxis": ["[Total Revenue]", "[Revenue SPLY]"],
+            "legend": "Year"
+          }
+        },
+        {
+          "name": "map_RevenueByState",
+          "type": "filledMap",
+          "position": {"x": 600, "y": 220, "width": 380, "height": 280},
+          "config": {
+            "title": "Revenue by State",
+            "location": "Geography[State]",
+            "values": "[Total Revenue]",
+            "colorSaturation": "intensity"
+          }
+        },
+        {
+          "name": "donut_RevenueByCategory",
+          "type": "donutChart",
+          "position": {"x": 20, "y": 520, "width": 280, "height": 180},
+          "config": {
+            "title": "Revenue by Product Category",
+            "values": "[Total Revenue]",
+            "legend": "SKU_Master[Category]"
+          }
+        },
+        {
+          "name": "kpi_ServiceCompletion",
+          "type": "kpi",
+          "position": {"x": 320, "y": 520, "width": 280, "height": 180},
+          "config": {
+            "title": "Service Completion Rate",
+            "value": "[Service Completion %]",
+            "target": 90,
+            "trendAxis": "Date_Dimension[Month]"
+          }
+        },
+        {
+          "name": "column_ShipmentsByRegion",
+          "type": "clusteredColumnChart",
+          "position": {"x": 620, "y": 520, "width": 360, "height": 180},
+          "config": {
+            "title": "Shipments by Region",
+            "xAxis": "Geography[Region]",
+            "yAxis": ["[Total Shipments]", "[Delivered Shipments]"]
+          }
+        },
+        {
+          "name": "slicer_Year",
+          "type": "slicer",
+          "position": {"x": 900, "y": 80, "width": 100, "height": 60},
+          "config": {
+            "field": "Date_Dimension[Year]",
+            "type": "dropdown"
+          }
+        },
+        {
+          "name": "slicer_Quarter",
+          "type": "slicer",
+          "position": {"x": 1010, "y": 80, "width": 150, "height": 60},
+          "config": {
+            "field": "Date_Dimension[Quarter]",
+            "type": "buttons"
+          }
+        },
+        {
+          "name": "slicer_VIPStatus",
+          "type": "slicer",
+          "position": {"x": 1170, "y": 80, "width": 90, "height": 60},
+          "config": {
+            "field": "Clients[VIP_Status]",
+            "type": "dropdown"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory Analytics",
+      "displayName": "Inventory",
+      "ordinal": 1,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "card_UnitsInStock",
+          "type": "card",
+          "position": {"x": 20, "y": 80, "width": 200, "height": 100},
+          "config": {
+            "title": "Units in Stock",
+            "dataField": "[Units in Stock]"
+          }
+        },
+        {
+          "name": "card_InventoryValue",
+          "type": "card",
+          "position": {"x": 240, "y": 80, "width": 200, "height": 100},
+          "config": {
+            "title": "Inventory Value",
+            "dataField": "[Inventory Value]",
+            "format": "$#,##0"
+          }
+        },
+        {
+          "name": "card_UnitsShipped",
+          "type": "card",
+          "position": {"x": 460, "y": 80, "width": 200, "height": 100},
+          "config": {
+            "title": "Units Shipped",
+            "dataField": "[Units Shipped]"
+          }
+        },
+        {
+          "name": "card_AvgDaysInStock",
+          "type": "card",
+          "position": {"x": 680, "y": 80, "width": 200, "height": 100},
+          "config": {
+            "title": "Avg Days in Stock",
+            "dataField": "[Avg Days in Stock]"
+          }
+        },
+        {
+          "name": "stackedBar_InventoryBySKU",
+          "type": "stackedBarChart",
+          "position": {"x": 20, "y": 200, "width": 400, "height": 280},
+          "config": {
+            "title": "Inventory Status by SKU",
+            "yAxis": "SKU_Master[Product_Name]",
+            "xAxis": "[Stock Count]",
+            "legend": "Inventory[Status]",
+            "sort": "descending"
+          }
+        },
+        {
+          "name": "matrix_InventoryMatrix",
+          "type": "matrix",
+          "position": {"x": 440, "y": 200, "width": 400, "height": 280},
+          "config": {
+            "title": "Inventory Matrix",
+            "rows": "SKU_Master[Product_Name]",
+            "columns": "Inventory[Status]",
+            "values": "[Stock Count]",
+            "conditionalFormatting": "colorScale"
+          }
+        },
+        {
+          "name": "treemap_InventoryValue",
+          "type": "treemap",
+          "position": {"x": 860, "y": 200, "width": 400, "height": 280},
+          "config": {
+            "title": "Inventory Value Distribution",
+            "category": "SKU_Master[Category]",
+            "details": "SKU_Master[Product_Name]",
+            "values": "[Inventory Value]"
+          }
+        },
+        {
+          "name": "combo_MonthlyShipments",
+          "type": "lineClusteredColumnCombo",
+          "position": {"x": 20, "y": 500, "width": 800, "height": 200},
+          "config": {
+            "title": "Monthly Shipments with 3-Month Average",
+            "xAxis": "Date_Dimension[Month_Name]",
+            "columnYAxis": "[Units Shipped]",
+            "lineYAxis": "[Revenue 3M Avg]"
+          }
+        },
+        {
+          "name": "slicer_Category",
+          "type": "slicer",
+          "position": {"x": 900, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "field": "SKU_Master[Category]",
+            "type": "list"
+          }
+        },
+        {
+          "name": "slicer_Location",
+          "type": "slicer",
+          "position": {"x": 1100, "y": 80, "width": 160, "height": 100},
+          "config": {
+            "field": "Inventory[Location]",
+            "type": "list"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shipment Performance",
+      "displayName": "Shipments",
+      "ordinal": 2,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "gauge_OnTimeDelivery",
+          "type": "gauge",
+          "position": {"x": 20, "y": 80, "width": 250, "height": 150},
+          "config": {
+            "title": "On-Time Delivery %",
+            "value": "[On-Time Delivery %]",
+            "target": 95,
+            "min": 0,
+            "max": 100
+          }
+        },
+        {
+          "name": "gauge_ServiceCompletion",
+          "type": "gauge",
+          "position": {"x": 290, "y": 80, "width": 250, "height": 150},
+          "config": {
+            "title": "Service Completion %",
+            "value": "[Service Completion %]",
+            "target": 90,
+            "min": 0,
+            "max": 100
+          }
+        },
+        {
+          "name": "gauge_CustomerSat",
+          "type": "gauge",
+          "position": {"x": 560, "y": 80, "width": 250, "height": 150},
+          "config": {
+            "title": "Customer Satisfaction",
+            "value": "[Customer Satisfaction]",
+            "target": 4.0,
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "name": "map_ShipmentsByLocation",
+          "type": "bubbleMap",
+          "position": {"x": 20, "y": 250, "width": 400, "height": 280},
+          "config": {
+            "title": "Shipments by Location",
+            "latitude": "Geography[Latitude]",
+            "longitude": "Geography[Longitude]",
+            "bubbleSize": "[Total Shipments]",
+            "color": "[Avg Delivery Days]"
+          }
+        },
+        {
+          "name": "waterfall_ShippingCost",
+          "type": "waterfall",
+          "position": {"x": 440, "y": 250, "width": 400, "height": 280},
+          "config": {
+            "title": "Shipping Cost Breakdown by Carrier",
+            "category": "Shipments[Carrier]",
+            "yAxis": "[Total Shipping Cost]"
+          }
+        },
+        {
+          "name": "funnel_ShipmentStatus",
+          "type": "funnel",
+          "position": {"x": 860, "y": 250, "width": 400, "height": 280},
+          "config": {
+            "title": "Shipment Status Funnel",
+            "category": "Shipments[Delivery_Status]",
+            "values": "[Total Shipments]"
+          }
+        },
+        {
+          "name": "ribbon_ShipmentsByRegion",
+          "type": "ribbonChart",
+          "position": {"x": 20, "y": 550, "width": 700, "height": 150},
+          "config": {
+            "title": "Shipment Volume by Region Over Time",
+            "axis": "Date_Dimension[Month_Name]",
+            "legend": "Geography[Region]",
+            "values": "[Total Shipments]"
+          }
+        },
+        {
+          "name": "slicer_ShipmentType",
+          "type": "slicer",
+          "position": {"x": 830, "y": 80, "width": 200, "height": 60},
+          "config": {
+            "field": "Shipments[Shipment_Type]",
+            "type": "dropdown"
+          }
+        },
+        {
+          "name": "slicer_DateRange",
+          "type": "slicer",
+          "position": {"x": 1050, "y": 80, "width": 210, "height": 60},
+          "config": {
+            "field": "Date_Dimension[Date]",
+            "type": "dateRange"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service Analytics",
+      "displayName": "Service",
+      "ordinal": 3,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "card_TotalServiceRequests",
+          "type": "card",
+          "position": {"x": 20, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Total Service Requests",
+            "dataField": "[Total Service Requests]"
+          }
+        },
+        {
+          "name": "card_CompletedServices",
+          "type": "card",
+          "position": {"x": 220, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Completed Services",
+            "dataField": "[Completed Services]"
+          }
+        },
+        {
+          "name": "card_ServiceCompletionPct",
+          "type": "card",
+          "position": {"x": 420, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Service Completion %",
+            "dataField": "[Service Completion %]",
+            "format": "#,##0.0%"
+          }
+        },
+        {
+          "name": "card_AvgServiceDays",
+          "type": "card",
+          "position": {"x": 620, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Avg Service Days",
+            "dataField": "[Avg Service Days]"
+          }
+        },
+        {
+          "name": "stackedArea_ServiceOverTime",
+          "type": "stackedAreaChart",
+          "position": {"x": 20, "y": 200, "width": 700, "height": 250},
+          "config": {
+            "title": "Service Request Status Over Time",
+            "xAxis": "Date_Dimension[Date]",
+            "yAxis": "[Total Service Requests]",
+            "legend": "Service_Records[Service_Status]",
+            "hierarchy": "Week"
+          }
+        },
+        {
+          "name": "column_ServiceByIssue",
+          "type": "clusteredColumnChart",
+          "position": {"x": 20, "y": 470, "width": 400, "height": 220},
+          "config": {
+            "title": "Service Requests by Issue Type",
+            "xAxis": "Service_Records[Issue_Type]",
+            "yAxis": "COUNT(Service_Records)",
+            "legend": "Service_Records[Warranty_Status]"
+          }
+        },
+        {
+          "name": "scatter_ServiceCost",
+          "type": "scatterChart",
+          "position": {"x": 440, "y": 470, "width": 400, "height": 220},
+          "config": {
+            "title": "Service Cost Analysis",
+            "xAxis": "Service_Records[Labor_Hours]",
+            "yAxis": "Service_Records[Total_Cost]",
+            "legend": "Service_Records[Priority]",
+            "size": "Service_Records[Parts_Cost]"
+          }
+        },
+        {
+          "name": "matrix_TechnicianPerformance",
+          "type": "matrix",
+          "position": {"x": 740, "y": 200, "width": 520, "height": 250},
+          "config": {
+            "title": "Technician Performance",
+            "rows": "Service_Records[Technician_Assigned]",
+            "values": ["[Total Service Requests]", "[Completed Services]", "[Service Completion %]", "[Avg Service Cost]"]
+          }
+        },
+        {
+          "name": "slicer_WarrantyStatus",
+          "type": "slicer",
+          "position": {"x": 820, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "field": "Service_Records[Warranty_Status]",
+            "type": "list"
+          }
+        },
+        {
+          "name": "slicer_Priority",
+          "type": "slicer",
+          "position": {"x": 1020, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "field": "Service_Records[Priority]",
+            "type": "buttons"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Revenue Deep Dive",
+      "displayName": "Revenue",
+      "ordinal": 4,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "combo_ActualVsBudget",
+          "type": "lineClusteredColumnCombo",
+          "position": {"x": 20, "y": 80, "width": 800, "height": 280},
+          "config": {
+            "title": "Revenue: Actual vs Budget",
+            "xAxis": "Date_Dimension[Month_Name]",
+            "columnYAxis": ["[Total Revenue]", "SUM(Budget_Targets[Target_Revenue])"],
+            "lineYAxis": "[Revenue Variance %]"
+          }
+        },
+        {
+          "name": "decomp_Revenue",
+          "type": "decompositionTree",
+          "position": {"x": 20, "y": 380, "width": 500, "height": 320},
+          "config": {
+            "title": "Revenue Decomposition",
+            "analyze": "[Total Revenue]",
+            "explainBy": ["Geography[Region]", "Clients[Client_Type]", "SKU_Master[Category]"]
+          }
+        },
+        {
+          "name": "keyInfluencers_Profit",
+          "type": "keyInfluencers",
+          "position": {"x": 540, "y": 380, "width": 500, "height": 320},
+          "config": {
+            "title": "What Influences Profit Margin?",
+            "analyze": "[Profit Margin %]",
+            "explainBy": ["SKU_Master[Category]", "Geography[Region]", "Clients[VIP_Status]"]
+          }
+        },
+        {
+          "name": "table_TopCustomers",
+          "type": "table",
+          "position": {"x": 840, "y": 80, "width": 420, "height": 280},
+          "config": {
+            "title": "Top 10 Customers by Revenue",
+            "rows": "Sales_Transactions[Client_Name]",
+            "values": ["[Total Revenue]", "[Gross Profit]", "[Profit Margin %]", "[Total Discounts]"],
+            "sort": "[Total Revenue] DESC",
+            "topN": 10
+          }
+        },
+        {
+          "name": "slicer_Year_Rev",
+          "type": "slicer",
+          "position": {"x": 1060, "y": 380, "width": 200, "height": 80},
+          "config": {
+            "field": "Date_Dimension[Year]",
+            "type": "dropdown"
+          }
+        },
+        {
+          "name": "slicer_Quarter_Rev",
+          "type": "slicer",
+          "position": {"x": 1060, "y": 480, "width": 200, "height": 80},
+          "config": {
+            "field": "Date_Dimension[Quarter]",
+            "type": "buttons"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customer Insights",
+      "displayName": "Customers",
+      "ordinal": 5,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "card_TotalCustomers",
+          "type": "card",
+          "position": {"x": 20, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Total Customers",
+            "dataField": "DISTINCTCOUNT(Clients[Client_ID])"
+          }
+        },
+        {
+          "name": "card_AvgRevPerCustomer",
+          "type": "card",
+          "position": {"x": 220, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Avg Revenue/Customer",
+            "dataField": "[Avg Revenue per Customer]",
+            "format": "$#,##0"
+          }
+        },
+        {
+          "name": "card_VIPRevPct",
+          "type": "card",
+          "position": {"x": 420, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "VIP Revenue %",
+            "dataField": "[VIP Revenue %]",
+            "format": "#,##0.0%"
+          }
+        },
+        {
+          "name": "card_CustomerLTV",
+          "type": "card",
+          "position": {"x": 620, "y": 80, "width": 180, "height": 100},
+          "config": {
+            "title": "Customer LTV",
+            "dataField": "[Customer LTV]",
+            "format": "$#,##0"
+          }
+        },
+        {
+          "name": "bar_TopCustomers",
+          "type": "clusteredBarChart",
+          "position": {"x": 20, "y": 200, "width": 450, "height": 350},
+          "config": {
+            "title": "Top 15 Customers",
+            "yAxis": "Clients[Client_Name]",
+            "xAxis": "[Total Revenue]",
+            "color": "Clients[VIP_Status]",
+            "sort": "DESC",
+            "topN": 15
+          }
+        },
+        {
+          "name": "scatter_CustomerSegmentation",
+          "type": "scatterChart",
+          "position": {"x": 490, "y": 200, "width": 380, "height": 220},
+          "config": {
+            "title": "Customer Value Segmentation",
+            "xAxis": "COUNT(Jobs)",
+            "yAxis": "[Total Revenue]",
+            "legend": "Clients[Client_Type]",
+            "size": "[Gross Profit]"
+          }
+        },
+        {
+          "name": "pie_RevenueByClientType",
+          "type": "pieChart",
+          "position": {"x": 490, "y": 440, "width": 380, "height": 260},
+          "config": {
+            "title": "Revenue by Client Type",
+            "values": "[Total Revenue]",
+            "legend": "Clients[Client_Type]"
+          }
+        },
+        {
+          "name": "matrix_CustomerHierarchy",
+          "type": "matrix",
+          "position": {"x": 890, "y": 200, "width": 370, "height": 500},
+          "config": {
+            "title": "Customer Hierarchy",
+            "rows": ["Geography[Region]", "Geography[City]", "Clients[Client_Name]"],
+            "values": ["[Total Revenue]", "[Total Shipments]", "[Total Service Requests]"]
+          }
+        },
+        {
+          "name": "slicer_VIPStatus_Cust",
+          "type": "slicer",
+          "position": {"x": 820, "y": 80, "width": 200, "height": 100},
+          "config": {
+            "field": "Clients[VIP_Status]",
+            "type": "list"
+          }
+        },
+        {
+          "name": "slicer_Region_Cust",
+          "type": "slicer",
+          "position": {"x": 1040, "y": 80, "width": 220, "height": 100},
+          "config": {
+            "field": "Geography[Region]",
+            "type": "dropdown"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Operational Excellence",
+      "displayName": "Operations",
+      "ordinal": 6,
+      "isHidden": false,
+      "visuals": [
+        {
+          "name": "multiRowCard_KPIs",
+          "type": "multiRowCard",
+          "position": {"x": 20, "y": 80, "width": 800, "height": 120},
+          "config": {
+            "title": "Key Performance Indicators",
+            "fields": ["[Revenue Achievement %]", "[On-Time Delivery %]", "[Service Completion %]", "[Warranty Claim %]"]
+          }
+        },
+        {
+          "name": "line_WeeklyPerformance",
+          "type": "lineChart",
+          "position": {"x": 20, "y": 220, "width": 800, "height": 250},
+          "config": {
+            "title": "Weekly Performance Trends",
+            "xAxis": "Performance_Over_Time[Week_Ending]",
+            "yAxis": ["Performance_Over_Time[Revenue]", "Performance_Over_Time[Units_Shipped]", "Performance_Over_Time[Customer_Satisfaction]"]
+          }
+        },
+        {
+          "name": "column_MonthlyVariance",
+          "type": "clusteredColumnChart",
+          "position": {"x": 20, "y": 490, "width": 500, "height": 210},
+          "config": {
+            "title": "Monthly Variance Analysis",
+            "xAxis": "Date_Dimension[Month_Name]",
+            "yAxis": ["[Revenue Variance]", "[Shipments Variance]"]
+          }
+        },
+        {
+          "name": "table_MonthlyScorecard",
+          "type": "table",
+          "position": {"x": 540, "y": 490, "width": 720, "height": 210},
+          "config": {
+            "title": "Monthly Performance Scorecard",
+            "rows": "Date_Dimension[Month_Name]",
+            "values": {
+              "Actual": ["[Total Revenue]", "[Total Shipments]", "[Service Completion %]"],
+              "Target": ["SUM(Budget_Targets[Target_Revenue])", "SUM(Budget_Targets[Target_Shipments])", "AVG(Budget_Targets[Target_Service_Completion_Rate])"]
+            }
+          }
+        },
+        {
+          "name": "slicer_Year_Ops",
+          "type": "slicer",
+          "position": {"x": 840, "y": 80, "width": 180, "height": 60},
+          "config": {
+            "field": "Date_Dimension[Year]",
+            "type": "dropdown"
+          }
+        },
+        {
+          "name": "slicer_Region_Ops",
+          "type": "slicer",
+          "position": {"x": 1040, "y": 80, "width": 220, "height": 120},
+          "config": {
+            "field": "Geography[Region]",
+            "type": "list"
+          }
+        }
+      ]
+    }
+  ],
+  "navigation": {
+    "type": "buttons",
+    "position": "top",
+    "pages": ["Home", "Inventory", "Shipments", "Service", "Revenue", "Customers", "Operations"]
+  },
+  "bookmarks": [
+    {
+      "name": "Executive View",
+      "description": "High-level KPIs only"
+    },
+    {
+      "name": "Detailed View",
+      "description": "Granular data display"
+    },
+    {
+      "name": "YTD Performance",
+      "description": "Filter to current year"
+    },
+    {
+      "name": "Last Quarter",
+      "description": "Filter to previous quarter"
+    }
+  ],
+  "drillthrough": [
+    {
+      "name": "Customer Detail",
+      "targetField": "Clients[Client_ID]"
+    },
+    {
+      "name": "Product Detail",
+      "targetField": "SKU_Master[SKU_Code]"
+    },
+    {
+      "name": "Service History",
+      "targetField": "Service_Records[Serial_Number]"
+    }
+  ]
+}
