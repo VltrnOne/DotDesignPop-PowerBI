@@ -702,7 +702,7 @@
             </div>
             <div class="url-bar">
                 <span class="lock">SECURE</span>
-                <span class="url-text" id="url-display">https://app.powerbi.com/saintjames/coolers/dashboard</span>
+                <span class="url-text" id="url-display">https://app.powerbi.com/saintjames/coolers/warranty-service</span>
             </div>
         </div>
 
@@ -712,17 +712,17 @@
                 <span class="dot">Saint James</span><span class="design"> Cooler </span><span class="pop">Portfolio</span>
             </div>
             <div class="nav-tabs">
-                <div class="nav-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
+                <div class="nav-tab" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
                 <div class="nav-tab" data-tab="warehouse" onclick="switchTab('warehouse')">Warehouse</div>
                 <div class="nav-tab" data-tab="shipments" onclick="switchTab('shipments')">Shipments</div>
-                <div class="nav-tab" data-tab="warranty" onclick="switchTab('warranty')">Warranty & Service</div>
+                <div class="nav-tab active" data-tab="warranty" onclick="switchTab('warranty')">Warranty & Service</div>
             </div>
         </nav>
 
         <!-- Main Content -->
         <div class="main-content">
             <!-- Dashboard Page -->
-            <div class="page active" id="page-dashboard">
+            <div class="page" id="page-dashboard">
                 <div class="slicer-panel">
                     <div class="slicer-title">Filter Dashboard</div>
                     <div class="slicer-row">
@@ -849,13 +849,13 @@
                 <div class="kpi-row" id="dashboard-kpis">
                     <div class="kpi-card">
                         <div class="kpi-label">Pending Arrival</div>
-                        <div class="kpi-value orange" id="kpi-pending">48</div>
-                        <div class="kpi-change">En route to warehouse</div>
+                        <div class="kpi-value orange" id="kpi-pending">0</div>
+                        <div class="kpi-change">No inbound freight</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Active Inventory</div>
-                        <div class="kpi-value green" id="kpi-active-inv">278</div>
-                        <div class="kpi-change up">Confirmed in Warehouse</div>
+                        <div class="kpi-value green" id="kpi-active-inv">326</div>
+                        <div class="kpi-change up">In Warehouse Storage</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">In Transit</div>
@@ -875,11 +875,11 @@
                         <h3>Warehouse Summary</h3>
                         <div class="summary-item">
                             <span class="summary-item-label">Pending Arrival</span>
-                            <span class="summary-item-value" id="sum-pending">48</span>
+                            <span class="summary-item-value" id="sum-pending">0</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-item-label">Active Inventory</span>
-                            <span class="summary-item-value" id="sum-active">278</span>
+                            <span class="summary-item-value" id="sum-active">326</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-item-label">Exited Warehouse</span>
@@ -1235,7 +1235,7 @@
             </div>
 
             <!-- Warranty & Service Page -->
-            <div class="page" id="page-warranty">
+            <div class="page active" id="page-warranty">
                 <h1 class="page-title">Warranty & Service - 1 Year Coverage from Delivery Date</h1>
 
                 <div class="slicer-panel">
@@ -1405,7 +1405,7 @@
         // Tab Navigation
         function switchTab(tabName) {
             const urls = {
-                'dashboard': 'https://app.powerbi.com/saintjames/coolers/dashboard',
+                'dashboard': 'https://app.powerbi.com/saintjames/coolers/warranty-service',
                 'warehouse': 'https://app.powerbi.com/saintjames/coolers/warehouse',
                 'shipments': 'https://app.powerbi.com/saintjames/coolers/shipments',
                 'warranty': 'https://app.powerbi.com/saintjames/coolers/warranty-service'
