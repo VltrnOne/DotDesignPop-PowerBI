@@ -1,7 +1,7 @@
 {
   "name": "DotDesignPop_Dashboard",
   "description": "Complete Power BI Dashboard for DotDesign Pop Commercial Coolers",
-  "version": "2.0",
+  "version": "2.1",
   "author": "VLTRN",
   "createdDate": "2025-12-04",
   "lastModified": "2025-12-05",
@@ -11,6 +11,118 @@
     "width": 1280,
     "height": 720
   },
+  "slicerConfiguration": {
+    "description": "Global slicer settings - slicers filter all visuals on the page",
+    "syncBehavior": "syncAcrossPages",
+    "availableSlicers": [
+      {
+        "name": "Region",
+        "field": "Geography[Region]",
+        "type": "dropdown",
+        "multiSelect": true,
+        "selectAll": true,
+        "description": "Filter by geographic region - affects all metrics"
+      },
+      {
+        "name": "State",
+        "field": "Geography[State]",
+        "type": "dropdown",
+        "multiSelect": true,
+        "description": "Filter by state within region"
+      },
+      {
+        "name": "Client",
+        "field": "Clients[Client_Name]",
+        "type": "dropdown",
+        "multiSelect": true,
+        "searchEnabled": true,
+        "description": "Filter by specific client"
+      },
+      {
+        "name": "Client Type",
+        "field": "Clients[Client_Type]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by client classification"
+      },
+      {
+        "name": "VIP Status",
+        "field": "Clients[VIP_Status]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by VIP tier (Gold, Platinum, Standard)"
+      },
+      {
+        "name": "Product Category",
+        "field": "SKU_Master[Category]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by product category"
+      },
+      {
+        "name": "SKU",
+        "field": "SKU_Master[Product_Name]",
+        "type": "dropdown",
+        "multiSelect": true,
+        "searchEnabled": true,
+        "description": "Filter by specific product/SKU"
+      },
+      {
+        "name": "Year",
+        "field": "Date_Dimension[Year]",
+        "type": "dropdown",
+        "description": "Filter by year"
+      },
+      {
+        "name": "Quarter",
+        "field": "Date_Dimension[Quarter]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by quarter"
+      },
+      {
+        "name": "Month",
+        "field": "Date_Dimension[Month_Name]",
+        "type": "dropdown",
+        "multiSelect": true,
+        "description": "Filter by month"
+      },
+      {
+        "name": "Date Range",
+        "field": "Date_Dimension[Date]",
+        "type": "dateRange",
+        "description": "Filter by custom date range"
+      },
+      {
+        "name": "Inventory Status",
+        "field": "Inventory[Status]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by inventory status"
+      },
+      {
+        "name": "Delivery Status",
+        "field": "Shipments[Delivery_Status]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by shipment delivery status"
+      },
+      {
+        "name": "Warranty Status",
+        "field": "Service_Records[Warranty_Status]",
+        "type": "buttons",
+        "multiSelect": true,
+        "description": "Filter by warranty status"
+      },
+      {
+        "name": "Service Status",
+        "field": "Service_Records[Service_Status]",
+        "type": "dropdown",
+        "multiSelect": true,
+        "description": "Filter by service request status"
+      }
+    ]
+  },
   "pages": [
     {
       "name": "Executive Dashboard",
@@ -19,6 +131,103 @@
       "isHidden": false,
       "description": "Summary recap of Warehouse, Shipments, and Warranty/Service subcategories",
       "visuals": [
+        {
+          "name": "slicerPanel_Region",
+          "type": "slicer",
+          "position": {"x": 20, "y": 10, "width": 140, "height": 50},
+          "config": {
+            "field": "Geography[Region]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "selectAll": true,
+            "title": "Region",
+            "backgroundColor": "#F8FAFC"
+          }
+        },
+        {
+          "name": "slicerPanel_Client",
+          "type": "slicer",
+          "position": {"x": 170, "y": 10, "width": 160, "height": 50},
+          "config": {
+            "field": "Clients[Client_Name]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "searchEnabled": true,
+            "title": "Client",
+            "backgroundColor": "#F8FAFC"
+          }
+        },
+        {
+          "name": "slicerPanel_Category",
+          "type": "slicer",
+          "position": {"x": 340, "y": 10, "width": 150, "height": 50},
+          "config": {
+            "field": "SKU_Master[Category]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "title": "Product Category",
+            "backgroundColor": "#F8FAFC"
+          }
+        },
+        {
+          "name": "slicerPanel_Year",
+          "type": "slicer",
+          "position": {"x": 500, "y": 10, "width": 80, "height": 50},
+          "config": {
+            "field": "Date_Dimension[Year]",
+            "type": "dropdown",
+            "title": "Year",
+            "backgroundColor": "#F8FAFC"
+          }
+        },
+        {
+          "name": "slicerPanel_Quarter",
+          "type": "slicer",
+          "position": {"x": 590, "y": 10, "width": 180, "height": 50},
+          "config": {
+            "field": "Date_Dimension[Quarter]",
+            "type": "buttons",
+            "orientation": "horizontal",
+            "multiSelect": true,
+            "title": "Quarter",
+            "backgroundColor": "#F8FAFC"
+          }
+        },
+        {
+          "name": "slicerPanel_VIPStatus",
+          "type": "slicer",
+          "position": {"x": 780, "y": 10, "width": 200, "height": 50},
+          "config": {
+            "field": "Clients[VIP_Status]",
+            "type": "buttons",
+            "orientation": "horizontal",
+            "multiSelect": true,
+            "title": "VIP Status",
+            "backgroundColor": "#F8FAFC"
+          }
+        },
+        {
+          "name": "btn_ClearFilters",
+          "type": "button",
+          "position": {"x": 990, "y": 10, "width": 100, "height": 50},
+          "config": {
+            "text": "Clear All",
+            "action": "clearAllSlicers",
+            "style": "outline",
+            "backgroundColor": "#FEE2E2",
+            "textColor": "#EF4444"
+          }
+        },
+        {
+          "name": "text_ActiveFilters",
+          "type": "textbox",
+          "position": {"x": 1100, "y": 10, "width": 160, "height": 50},
+          "config": {
+            "text": "Active Filters: ",
+            "fontSize": 10,
+            "showFilterCount": true
+          }
+        },
         {
           "name": "header_Warehouse",
           "type": "textbox",
@@ -256,6 +465,73 @@
       "description": "Warehouse inventory tracking: Pending Arrival, Available Inventory, Exited Warehouse",
       "visuals": [
         {
+          "name": "slicer_WH_Region",
+          "type": "slicer",
+          "position": {"x": 20, "y": 10, "width": 140, "height": 45},
+          "config": {
+            "field": "Geography[Region]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "selectAll": true,
+            "title": "Region"
+          }
+        },
+        {
+          "name": "slicer_WH_Location",
+          "type": "slicer",
+          "position": {"x": 170, "y": 10, "width": 150, "height": 45},
+          "config": {
+            "field": "Inventory[Location]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "title": "Warehouse Location"
+          }
+        },
+        {
+          "name": "slicer_WH_SKU",
+          "type": "slicer",
+          "position": {"x": 330, "y": 10, "width": 160, "height": 45},
+          "config": {
+            "field": "SKU_Master[Product_Name]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "searchEnabled": true,
+            "title": "Product/SKU"
+          }
+        },
+        {
+          "name": "slicer_WH_Status",
+          "type": "slicer",
+          "position": {"x": 500, "y": 10, "width": 250, "height": 45},
+          "config": {
+            "field": "Inventory[Status]",
+            "type": "buttons",
+            "orientation": "horizontal",
+            "multiSelect": true,
+            "title": "Inventory Status"
+          }
+        },
+        {
+          "name": "slicer_WH_Year",
+          "type": "slicer",
+          "position": {"x": 760, "y": 10, "width": 80, "height": 45},
+          "config": {
+            "field": "Date_Dimension[Year]",
+            "type": "dropdown",
+            "title": "Year"
+          }
+        },
+        {
+          "name": "slicer_WH_DateRange",
+          "type": "slicer",
+          "position": {"x": 850, "y": 10, "width": 200, "height": 45},
+          "config": {
+            "field": "Date_Dimension[Date]",
+            "type": "dateRange",
+            "title": "Received Date Range"
+          }
+        },
+        {
           "name": "header_PendingArrival",
           "type": "textbox",
           "position": {"x": 20, "y": 60, "width": 400, "height": 25},
@@ -410,9 +686,77 @@
       "isHidden": false,
       "visuals": [
         {
+          "name": "slicer_SH_Region",
+          "type": "slicer",
+          "position": {"x": 20, "y": 10, "width": 130, "height": 45},
+          "config": {
+            "field": "Geography[Region]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "selectAll": true,
+            "title": "Region"
+          }
+        },
+        {
+          "name": "slicer_SH_Client",
+          "type": "slicer",
+          "position": {"x": 160, "y": 10, "width": 150, "height": 45},
+          "config": {
+            "field": "Clients[Client_Name]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "searchEnabled": true,
+            "title": "Client"
+          }
+        },
+        {
+          "name": "slicer_SH_DeliveryStatus",
+          "type": "slicer",
+          "position": {"x": 320, "y": 10, "width": 280, "height": 45},
+          "config": {
+            "field": "Shipments[Delivery_Status]",
+            "type": "buttons",
+            "orientation": "horizontal",
+            "multiSelect": true,
+            "title": "Delivery Status"
+          }
+        },
+        {
+          "name": "slicer_SH_Carrier",
+          "type": "slicer",
+          "position": {"x": 610, "y": 10, "width": 140, "height": 45},
+          "config": {
+            "field": "Shipments[Carrier]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "title": "Carrier"
+          }
+        },
+        {
+          "name": "slicer_SH_ShipmentType",
+          "type": "slicer",
+          "position": {"x": 760, "y": 10, "width": 140, "height": 45},
+          "config": {
+            "field": "Shipments[Shipment_Type]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "title": "Shipment Type"
+          }
+        },
+        {
+          "name": "slicer_SH_DateRange",
+          "type": "slicer",
+          "position": {"x": 910, "y": 10, "width": 200, "height": 45},
+          "config": {
+            "field": "Date_Dimension[Date]",
+            "type": "dateRange",
+            "title": "Ship Date Range"
+          }
+        },
+        {
           "name": "gauge_OnTimeDelivery",
           "type": "gauge",
-          "position": {"x": 20, "y": 80, "width": 250, "height": 150},
+          "position": {"x": 20, "y": 70, "width": 250, "height": 150},
           "config": {
             "title": "On-Time Delivery %",
             "value": "[On-Time Delivery %]",
@@ -516,9 +860,77 @@
       "description": "Active Warranty (by SN), Service Requested, Repair Scheduled, Expired",
       "visuals": [
         {
+          "name": "slicer_WS_SerialNumber",
+          "type": "slicer",
+          "position": {"x": 20, "y": 8, "width": 160, "height": 45},
+          "config": {
+            "field": "Service_Records[Serial_Number]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "searchEnabled": true,
+            "title": "Serial Number"
+          }
+        },
+        {
+          "name": "slicer_WS_WarrantyStatus",
+          "type": "slicer",
+          "position": {"x": 190, "y": 8, "width": 200, "height": 45},
+          "config": {
+            "field": "Service_Records[Warranty_Status]",
+            "type": "buttons",
+            "orientation": "horizontal",
+            "multiSelect": true,
+            "title": "Warranty Status"
+          }
+        },
+        {
+          "name": "slicer_WS_ServiceStatus",
+          "type": "slicer",
+          "position": {"x": 400, "y": 8, "width": 200, "height": 45},
+          "config": {
+            "field": "Service_Records[Service_Status]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "title": "Service Status"
+          }
+        },
+        {
+          "name": "slicer_WS_IssueType",
+          "type": "slicer",
+          "position": {"x": 610, "y": 8, "width": 150, "height": 45},
+          "config": {
+            "field": "Service_Records[Issue_Type]",
+            "type": "dropdown",
+            "multiSelect": true,
+            "title": "Issue Type"
+          }
+        },
+        {
+          "name": "slicer_WS_Priority",
+          "type": "slicer",
+          "position": {"x": 770, "y": 8, "width": 180, "height": 45},
+          "config": {
+            "field": "Service_Records[Priority]",
+            "type": "buttons",
+            "orientation": "horizontal",
+            "multiSelect": true,
+            "title": "Priority"
+          }
+        },
+        {
+          "name": "slicer_WS_DateRange",
+          "type": "slicer",
+          "position": {"x": 960, "y": 8, "width": 200, "height": 45},
+          "config": {
+            "field": "Date_Dimension[Date]",
+            "type": "dateRange",
+            "title": "Service Date Range"
+          }
+        },
+        {
           "name": "header_ActiveWarranty",
           "type": "textbox",
-          "position": {"x": 20, "y": 60, "width": 300, "height": 25},
+          "position": {"x": 20, "y": 58, "width": 300, "height": 25},
           "config": {
             "text": "ACTIVE WARRANTY (by Serial Number)",
             "fontSize": 12,
