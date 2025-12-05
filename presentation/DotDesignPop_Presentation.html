@@ -701,7 +701,7 @@
                 <div class="browser-dot green"></div>
             </div>
             <div class="url-bar">
-                <span class="lock">🔒</span>
+                <span class="lock">SECURE</span>
                 <span class="url-text" id="url-display">https://app.powerbi.com/dotdesignpop/dashboard</span>
             </div>
         </div>
@@ -735,7 +735,7 @@
                                 </div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Inventory</span>
                                     </div>
                                     <div class="dropdown-item" data-value="pending" onclick="selectOption(this)">
@@ -750,16 +750,16 @@
                             </div>
                         </div>
 
-                        <!-- Active Shipments Filter -->
+                        <!-- Shipments Filter -->
                         <div class="slicer">
-                            <div class="slicer-label">Active Shipments</div>
+                            <div class="slicer-label">Shipments</div>
                             <div class="custom-dropdown" data-filter="shipments">
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">
                                     All Shipments
                                 </div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Shipments</span>
                                     </div>
                                     <div class="dropdown-item" data-value="picked-up" onclick="selectOption(this)">
@@ -787,7 +787,7 @@
                                 </div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Status</span>
                                     </div>
                                     <div class="dropdown-item" data-value="active-warranty" onclick="selectOption(this)">
@@ -817,28 +817,28 @@
                 <!-- Asset Flow Overview -->
                 <div class="asset-flow">
                     <div class="flow-step" onclick="switchTab('warehouse')">
-                        <div class="flow-icon">📦</div>
+                        <div class="flow-icon">1</div>
                         <div class="flow-title">Warehouse</div>
                         <div class="flow-subtitle">SKU Level</div>
                         <div class="flow-count" id="dash-warehouse-count">1,247</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">--></div>
                     <div class="flow-step" onclick="switchTab('shipments')">
-                        <div class="flow-icon orange">🚚</div>
-                        <div class="flow-title">Active Shipments</div>
+                        <div class="flow-icon orange">2</div>
+                        <div class="flow-title">Shipments</div>
                         <div class="flow-subtitle">Serial # Assigned</div>
                         <div class="flow-count" id="dash-shipments-count">89</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">--></div>
                     <div class="flow-step" onclick="switchTab('warranty')">
-                        <div class="flow-icon green">✓</div>
+                        <div class="flow-icon green">3</div>
                         <div class="flow-title">Delivered</div>
                         <div class="flow-subtitle" style="color: var(--accent-green); font-weight: 600;">Warranty Starts</div>
                         <div class="flow-count" id="dash-delivered-count">3,892</div>
                     </div>
-                    <div class="flow-arrow">→</div>
+                    <div class="flow-arrow">--></div>
                     <div class="flow-step" onclick="switchTab('warranty')">
-                        <div class="flow-icon purple">🔧</div>
+                        <div class="flow-icon purple">4</div>
                         <div class="flow-title">Warranty & Service</div>
                         <div class="flow-subtitle">1-Year Coverage</div>
                         <div class="flow-count" id="dash-warranty-count">2,847</div>
@@ -889,12 +889,8 @@
                     <div class="summary-card green">
                         <h3>Shipment Summary</h3>
                         <div class="summary-item">
-                            <span class="summary-item-label">Active Shipments</span>
-                            <span class="summary-item-value" id="sum-active-ship">89</span>
-                        </div>
-                        <div class="summary-item">
                             <span class="summary-item-label">In Transit</span>
-                            <span class="summary-item-value" id="sum-transit">42</span>
+                            <span class="summary-item-value" id="sum-transit">89</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-item-label">Scheduling Delivery</span>
@@ -936,7 +932,7 @@
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Status</div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Status</span>
                                     </div>
                                     <div class="dropdown-item" data-value="pending" onclick="selectOption(this)">
@@ -960,7 +956,7 @@
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Locations</div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Locations</span>
                                     </div>
                                     <div class="dropdown-item" data-value="phoenix" onclick="selectOption(this)">
@@ -1075,7 +1071,7 @@
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Shipments</div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Shipments</span>
                                     </div>
                                     <div class="dropdown-item" data-value="picked-up" onclick="selectOption(this)">
@@ -1099,8 +1095,12 @@
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Carriers</div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Carriers</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="first-tracks" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>First Tracks</span>
                                     </div>
                                     <div class="dropdown-item" data-value="fedex" onclick="selectOption(this)">
                                         <div class="dropdown-checkbox"></div>
@@ -1122,11 +1122,11 @@
 
                 <div class="kpi-row">
                     <div class="kpi-card">
-                        <div class="kpi-label">Active Shipments</div>
+                        <div class="kpi-label">In Transit</div>
                         <div class="kpi-value blue">89</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Picked Up / In Transit</div>
+                        <div class="kpi-label">Picked Up</div>
                         <div class="kpi-value">42</div>
                     </div>
                     <div class="kpi-card">
@@ -1141,7 +1141,7 @@
 
                 <div class="data-table">
                     <div class="table-header">
-                        <div class="table-title">Active Shipments - Serial Number Tracking</div>
+                        <div class="table-title">Shipments - Serial Number Tracking</div>
                         <input type="text" class="table-search" placeholder="Search Serial Number...">
                     </div>
                     <table>
@@ -1152,41 +1152,64 @@
                                 <th>Client</th>
                                 <th>Destination</th>
                                 <th>Carrier</th>
+                                <th>Tracking #</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="shipments-table">
-                            <tr>
+                            <tr data-status="in-transit">
                                 <td><strong>DDP-2024-001247</strong></td>
-                                <td>Wire Rack Display</td>
+                                <td>DDP-WR-001</td>
                                 <td>MWM Atlanta</td>
                                 <td>Atlanta, GA</td>
                                 <td>FedEx</td>
+                                <td>794644790131</td>
                                 <td><span class="status-badge in-transit">In Transit</span></td>
                             </tr>
-                            <tr>
+                            <tr data-status="in-transit">
                                 <td><strong>DDP-2024-001248</strong></td>
-                                <td>Shipper Unit</td>
+                                <td>DDP-SH-002</td>
                                 <td>Evergreen Miami</td>
                                 <td>Miami, FL</td>
                                 <td>UPS</td>
+                                <td>1Z999AA10123456784</td>
                                 <td><span class="status-badge in-transit">In Transit</span></td>
                             </tr>
-                            <tr>
+                            <tr data-status="scheduling">
                                 <td><strong>DDP-2024-001249</strong></td>
-                                <td>Fridge Model 1</td>
+                                <td>DDP-FR-003</td>
                                 <td>MWM Charlotte</td>
                                 <td>Charlotte, NC</td>
-                                <td>FedEx Freight</td>
+                                <td>First Tracks</td>
+                                <td>FT-2024-78432</td>
                                 <td><span class="status-badge pending">Scheduling</span></td>
                             </tr>
-                            <tr>
+                            <tr data-status="delivered">
                                 <td><strong>DDP-2024-001250</strong></td>
-                                <td>Cooler Rack</td>
+                                <td>DDP-CR-004</td>
                                 <td>Evergreen Tampa</td>
                                 <td>Tampa, FL</td>
-                                <td>UPS</td>
+                                <td>First Tracks</td>
+                                <td>FT-2024-78291</td>
                                 <td><span class="status-badge delivered">Delivered</span></td>
+                            </tr>
+                            <tr data-status="in-transit">
+                                <td><strong>DDP-2024-001251</strong></td>
+                                <td>DDP-WR-001</td>
+                                <td>MWM Houston</td>
+                                <td>Houston, TX</td>
+                                <td>First Tracks</td>
+                                <td>FT-2024-78501</td>
+                                <td><span class="status-badge in-transit">In Transit</span></td>
+                            </tr>
+                            <tr data-status="scheduling">
+                                <td><strong>DDP-2024-001252</strong></td>
+                                <td>DDP-SH-002</td>
+                                <td>Evergreen Phoenix</td>
+                                <td>Phoenix, AZ</td>
+                                <td>UPS</td>
+                                <td>1Z999AA10123456798</td>
+                                <td><span class="status-badge pending">Scheduling</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1206,7 +1229,7 @@
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Status</div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Status</span>
                                     </div>
                                     <div class="dropdown-item" data-value="active" onclick="selectOption(this)">
@@ -1234,7 +1257,7 @@
                                 <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Service</div>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
-                                        <div class="dropdown-checkbox">✓</div>
+                                        <div class="dropdown-checkbox">X</div>
                                         <span>All Service</span>
                                     </div>
                                     <div class="dropdown-item" data-value="no-issues" onclick="selectOption(this)">
@@ -1407,9 +1430,13 @@
             const menu = dropdown.querySelector('.dropdown-menu');
             const filterType = dropdown.dataset.filter;
 
-            // Update selection
-            menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+            // Update selection - mark selected and update checkbox
+            menu.querySelectorAll('.dropdown-item').forEach(i => {
+                i.classList.remove('selected');
+                i.querySelector('.dropdown-checkbox').textContent = '';
+            });
             item.classList.add('selected');
+            item.querySelector('.dropdown-checkbox').textContent = 'X';
 
             // Update trigger text
             trigger.textContent = item.querySelector('span').textContent;
@@ -1418,79 +1445,32 @@
             trigger.classList.remove('open');
             menu.classList.remove('show');
 
-            // Update data based on selection
-            updateDashboardData(filterType, item.dataset.value);
+            // Filter shipments table if on shipments page
+            if (filterType === 'ship-status') {
+                filterShipmentsTable(item.dataset.value);
+            }
         }
 
-        // Update Dashboard Data Based on Filters
-        function updateDashboardData(filterType, value) {
-            // Sample data updates based on filter
-            const dataUpdates = {
-                'warehouse': {
-                    'all': { pending: '156', active: '1,247', kpiPending: '156', kpiActive: '1,247' },
-                    'pending': { pending: '156', active: '0', kpiPending: '156', kpiActive: '0' },
-                    'active': { pending: '0', active: '1,247', kpiPending: '0', kpiActive: '1,247' }
-                },
-                'shipments': {
-                    'all': { transit: '42', scheduling: '47', delivered: '3,892' },  // 42+47=89 Active Shipments
-                    'picked-up': { transit: '42', scheduling: '0', delivered: '0' },
-                    'scheduling': { transit: '0', scheduling: '47', delivered: '0' },
-                    'history': { transit: '0', scheduling: '0', delivered: '3,892' }
-                },
-                'warranty': {
-                    'all': { warranties: '2,847', requests: '23', scheduled: '15' },
-                    'active-warranty': { warranties: '2,847', requests: '0', scheduled: '0' },
-                    'warranty-requests': { warranties: '0', requests: '23', scheduled: '0' },
-                    'in-scheduling': { warranties: '0', requests: '8', scheduled: '0' },
-                    'scheduled': { warranties: '0', requests: '0', scheduled: '15' }
+        // Filter shipments table by status
+        function filterShipmentsTable(statusFilter) {
+            const table = document.getElementById('shipments-table');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr');
+            rows.forEach(row => {
+                const rowStatus = row.dataset.status;
+                if (statusFilter === 'all') {
+                    row.style.display = '';
+                } else if (statusFilter === 'picked-up' && rowStatus === 'in-transit') {
+                    row.style.display = '';
+                } else if (statusFilter === 'scheduling' && rowStatus === 'scheduling') {
+                    row.style.display = '';
+                } else if (statusFilter === 'history' && rowStatus === 'delivered') {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
                 }
-            };
-
-            if (filterType === 'warehouse' && dataUpdates.warehouse[value]) {
-                const data = dataUpdates.warehouse[value];
-                animateValue('kpi-pending', data.kpiPending);
-                animateValue('kpi-active-inv', data.kpiActive);
-                animateValue('sum-pending', data.pending);
-                animateValue('sum-active', data.active);
-                animateValue('dash-warehouse-count', data.active);
-            }
-
-            if (filterType === 'shipments' && dataUpdates.shipments[value]) {
-                const data = dataUpdates.shipments[value];
-                animateValue('kpi-transit', data.transit);
-                animateValue('sum-transit', data.transit);
-                animateValue('sum-scheduling', data.scheduling);
-                animateValue('sum-delivered', data.delivered);
-                // Calculate active shipments (in-transit + scheduling = exited warehouse but not yet delivered)
-                const activeShipCount = (parseInt(data.transit) || 0) + (parseInt(data.scheduling) || 0);
-                animateValue('sum-active-ship', activeShipCount.toString());
-                animateValue('sum-exited', activeShipCount.toString());  // Exited Warehouse = Active Shipments
-                // Active Shipments count shows in-transit or scheduling (active shipments)
-                animateValue('dash-shipments-count', activeShipCount.toString());
-                // Delivered count correlates with Shipment History
-                animateValue('dash-delivered-count', data.delivered);
-            }
-
-            if (filterType === 'warranty' && dataUpdates.warranty[value]) {
-                const data = dataUpdates.warranty[value];
-                animateValue('sum-warranties', data.warranties);
-                animateValue('sum-requests', data.requests);
-                animateValue('sum-scheduled', data.scheduled);
-                animateValue('dash-warranty-count', data.warranties);
-            }
-        }
-
-        // Animate value change
-        function animateValue(elementId, newValue) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.style.transform = 'scale(1.1)';
-                element.style.transition = 'transform 0.2s';
-                setTimeout(() => {
-                    element.textContent = newValue;
-                    element.style.transform = 'scale(1)';
-                }, 100);
-            }
+            });
         }
 
         // Clear All Filters
@@ -1500,38 +1480,31 @@
                 const trigger = dropdown.querySelector('.dropdown-trigger');
                 const menu = dropdown.querySelector('.dropdown-menu');
 
-                menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+                menu.querySelectorAll('.dropdown-item').forEach(i => {
+                    i.classList.remove('selected');
+                    i.querySelector('.dropdown-checkbox').textContent = '';
+                });
                 item.classList.add('selected');
+                item.querySelector('.dropdown-checkbox').textContent = 'X';
 
                 // Set default text based on filter type
                 const filterType = dropdown.dataset.filter;
                 const defaultTexts = {
                     'warehouse': 'All Inventory',
                     'shipments': 'All Shipments',
-                    'warranty': 'All Status'
+                    'warranty': 'All Status',
+                    'ship-status': 'All Shipments',
+                    'ship-carrier': 'All Carriers',
+                    'wh-status': 'All Status',
+                    'wh-location': 'All Locations',
+                    'war-status': 'All Status',
+                    'war-service': 'All Service'
                 };
                 trigger.textContent = defaultTexts[filterType] || 'All';
             });
 
-            // Reset all data to defaults
-            animateValue('kpi-pending', '156');
-            animateValue('kpi-active-inv', '1,247');
-            animateValue('kpi-transit', '42');
-            animateValue('kpi-service', '23');
-            animateValue('sum-pending', '156');
-            animateValue('sum-active', '1,247');
-            animateValue('sum-exited', '89');  // Correlates with Active Shipments
-            animateValue('sum-active-ship', '89');  // Active Shipments = Exited Warehouse
-            animateValue('sum-transit', '42');
-            animateValue('sum-scheduling', '47');
-            animateValue('sum-delivered', '3,892');
-            animateValue('sum-warranties', '2,847');
-            animateValue('sum-requests', '23');
-            animateValue('sum-scheduled', '15');
-            animateValue('dash-warehouse-count', '1,247');
-            animateValue('dash-shipments-count', '89');
-            animateValue('dash-delivered-count', '3,892');
-            animateValue('dash-warranty-count', '2,847');
+            // Reset shipments table filter
+            filterShipmentsTable('all');
         }
 
         // Search functionality for tables
