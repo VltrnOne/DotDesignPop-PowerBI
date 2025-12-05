@@ -582,7 +582,13 @@
             font-size: 14px;
             font-weight: 600;
             color: var(--dark-bg);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+        }
+
+        .flow-subtitle {
+            font-size: 11px;
+            color: var(--medium-gray);
+            margin-bottom: 6px;
         }
 
         .flow-count {
@@ -813,24 +819,28 @@
                     <div class="flow-step" onclick="switchTab('warehouse')">
                         <div class="flow-icon">📦</div>
                         <div class="flow-title">Warehouse</div>
+                        <div class="flow-subtitle">SKU Level</div>
                         <div class="flow-count" id="dash-warehouse-count">1,247</div>
                     </div>
                     <div class="flow-arrow">→</div>
                     <div class="flow-step" onclick="switchTab('shipments')">
                         <div class="flow-icon orange">🚚</div>
                         <div class="flow-title">Active Shipments</div>
+                        <div class="flow-subtitle">Serial # Assigned</div>
                         <div class="flow-count" id="dash-shipments-count">89</div>
                     </div>
                     <div class="flow-arrow">→</div>
-                    <div class="flow-step">
+                    <div class="flow-step" onclick="switchTab('warranty')">
                         <div class="flow-icon green">✓</div>
                         <div class="flow-title">Delivered</div>
+                        <div class="flow-subtitle" style="color: var(--accent-green); font-weight: 600;">Warranty Starts</div>
                         <div class="flow-count" id="dash-delivered-count">3,892</div>
                     </div>
                     <div class="flow-arrow">→</div>
                     <div class="flow-step" onclick="switchTab('warranty')">
                         <div class="flow-icon purple">🔧</div>
                         <div class="flow-title">Warranty & Service</div>
+                        <div class="flow-subtitle">1-Year Coverage</div>
                         <div class="flow-count" id="dash-warranty-count">2,847</div>
                     </div>
                 </div>
@@ -1169,7 +1179,7 @@
 
             <!-- Warranty & Service Page -->
             <div class="page" id="page-warranty">
-                <h1 class="page-title">Warranty & Service - Asset Lifecycle by Serial Number</h1>
+                <h1 class="page-title">Warranty & Service - 1 Year Coverage from Delivery Date</h1>
 
                 <div class="slicer-panel">
                     <div class="slicer-title">Warranty & Service Filters</div>
@@ -1259,6 +1269,7 @@
                                 <th>Serial Number</th>
                                 <th>Product</th>
                                 <th>Client</th>
+                                <th>Delivered Date</th>
                                 <th>Warranty Expires</th>
                                 <th>Warranty Status</th>
                                 <th>Service Status</th>
@@ -1269,6 +1280,7 @@
                                 <td><strong>DDP-2024-001247</strong></td>
                                 <td>Wire Rack Display</td>
                                 <td>MWM Atlanta</td>
+                                <td>Dec 5, 2024</td>
                                 <td>Dec 5, 2025</td>
                                 <td><span class="status-badge active">Active</span></td>
                                 <td><span class="status-badge in-stock">No Issues</span></td>
@@ -1277,6 +1289,7 @@
                                 <td><strong>DDP-2024-001156</strong></td>
                                 <td>Cooler Rack</td>
                                 <td>MWM Charlotte</td>
+                                <td>Oct 22, 2024</td>
                                 <td>Oct 22, 2025</td>
                                 <td><span class="status-badge active">Active</span></td>
                                 <td><span class="status-badge scheduled">Scheduled</span></td>
@@ -1285,6 +1298,7 @@
                                 <td><strong>DDP-2023-000892</strong></td>
                                 <td>Fridge Model 1</td>
                                 <td>Evergreen Tampa</td>
+                                <td>Mar 15, 2023</td>
                                 <td>Mar 15, 2024</td>
                                 <td><span class="status-badge expired">Expired</span></td>
                                 <td><span class="status-badge requested">Requested</span></td>
@@ -1293,6 +1307,7 @@
                                 <td><strong>DDP-2024-000743</strong></td>
                                 <td>Shipper Unit</td>
                                 <td>MWM Miami</td>
+                                <td>Jun 8, 2024</td>
                                 <td>Jun 8, 2025</td>
                                 <td><span class="status-badge active">Active</span></td>
                                 <td><span class="status-badge pending">In Scheduling</span></td>
