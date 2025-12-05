@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DotDesignPop Power BI Portal - Client Preview</title>
+    <title>DotDesignPop Power BI Portal - Interactive Demo</title>
     <style>
         /* DotDesignPop Brand Colors */
         :root {
@@ -16,6 +16,8 @@
             --medium-gray: #7A7A7A;
             --white: #FFFFFF;
             --black: #000000;
+            --warning-orange: #F9A825;
+            --danger-red: #C62828;
         }
 
         * {
@@ -26,115 +28,27 @@
 
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: var(--light-gray);
+            background: var(--dark-bg);
             color: var(--text-gray);
             line-height: 1.6;
+            min-height: 100vh;
         }
 
-        /* Slide Container */
-        .slide {
-            min-height: 100vh;
-            padding: 60px 80px;
+        /* App Container */
+        .app-container {
             display: flex;
             flex-direction: column;
-            position: relative;
-            page-break-after: always;
+            min-height: 100vh;
         }
 
-        /* Slide 1: Cover */
-        .slide-cover {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-panel) 100%);
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .logo-container {
-            margin-bottom: 60px;
-        }
-
-        .logo {
-            font-size: 72px;
-            font-weight: 300;
-            color: var(--white);
-            letter-spacing: 4px;
-        }
-
-        .logo .dot {
-            color: var(--primary-blue);
-            font-weight: 700;
-        }
-
-        .logo .design {
-            color: var(--white);
-        }
-
-        .logo .pop {
-            color: var(--accent-green);
-            font-weight: 700;
-        }
-
-        .cover-subtitle {
-            font-size: 32px;
-            color: var(--medium-gray);
-            margin-top: 20px;
-            font-weight: 300;
-        }
-
-        .cover-tagline {
-            font-size: 18px;
-            color: var(--primary-blue);
-            margin-top: 40px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        /* Slide Headers */
-        .slide-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid var(--primary-blue);
-        }
-
-        .slide-title {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--dark-bg);
-        }
-
-        .slide-number {
-            font-size: 14px;
-            color: var(--medium-gray);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .mini-logo {
-            font-size: 24px;
-            font-weight: 300;
-        }
-
-        .mini-logo .dot { color: var(--primary-blue); font-weight: 700; }
-        .mini-logo .pop { color: var(--accent-green); font-weight: 700; }
-
-        /* Dashboard Mockup Styles */
-        .dashboard-mockup {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            overflow: hidden;
-            flex: 1;
-        }
-
-        .dashboard-header {
+        /* Browser Chrome */
+        .browser-chrome {
             background: var(--dark-bg);
-            padding: 15px 25px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
+            border-bottom: 1px solid #444;
         }
 
         .browser-dots {
@@ -164,11 +78,11 @@
             gap: 10px;
         }
 
-        .url-bar .lock {
-            color: var(--accent-green);
-        }
+        .url-bar .lock { color: var(--accent-green); }
+        .url-bar .url-text { color: #999; }
 
-        .dashboard-nav {
+        /* Navigation */
+        .main-nav {
             background: linear-gradient(90deg, var(--primary-blue) 0%, #0044CC 100%);
             padding: 0 25px;
             display: flex;
@@ -176,12 +90,16 @@
         }
 
         .nav-logo {
-            color: var(--white);
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
-            padding: 15px 0;
-            margin-right: 40px;
+            padding: 18px 0;
+            margin-right: 50px;
+            cursor: pointer;
         }
+
+        .nav-logo .dot { color: var(--white); }
+        .nav-logo .design { color: rgba(255,255,255,0.8); font-weight: 300; }
+        .nav-logo .pop { color: var(--accent-green); }
 
         .nav-tabs {
             display: flex;
@@ -189,12 +107,13 @@
         }
 
         .nav-tab {
-            padding: 15px 20px;
+            padding: 18px 24px;
             color: rgba(255,255,255,0.7);
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
             border-bottom: 3px solid transparent;
+            user-select: none;
         }
 
         .nav-tab:hover {
@@ -208,10 +127,27 @@
             border-bottom-color: var(--accent-green);
         }
 
-        .dashboard-content {
-            padding: 25px;
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
             background: #F5F6FA;
-            min-height: 400px;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Slicer Panel */
@@ -234,48 +170,68 @@
 
         .slicer-row {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
+            align-items: flex-start;
         }
 
         .slicer {
             flex: 1;
-            min-width: 150px;
+            min-width: 200px;
+            position: relative;
         }
 
         .slicer-label {
             font-size: 11px;
             color: var(--text-gray);
             margin-bottom: 6px;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .slicer-dropdown {
+        /* Custom Dropdown */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .dropdown-trigger {
             background: var(--white);
-            border: 1px solid #DDD;
-            border-radius: 4px;
-            padding: 10px 35px 10px 12px;
-            font-size: 13px;
+            border: 2px solid #DDD;
+            border-radius: 6px;
+            padding: 12px 40px 12px 15px;
+            font-size: 14px;
             color: var(--dark-bg);
             width: 100%;
-            position: relative;
             cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
         }
 
-        .slicer-dropdown::after {
+        .dropdown-trigger:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .dropdown-trigger.open {
+            border-color: var(--primary-blue);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .dropdown-trigger::after {
             content: "▼";
             position: absolute;
-            right: 12px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 10px;
             color: var(--primary-blue);
+            transition: transform 0.2s;
         }
 
-        .slicer-dropdown.open {
-            border-color: var(--primary-blue);
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
+        .dropdown-trigger.open::after {
+            transform: translateY(-50%) rotate(180deg);
         }
 
         .dropdown-menu {
@@ -284,20 +240,39 @@
             left: 0;
             right: 0;
             background: var(--white);
-            border: 1px solid var(--primary-blue);
+            border: 2px solid var(--primary-blue);
             border-top: none;
-            border-radius: 0 0 4px 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 100;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .dropdown-item {
-            padding: 10px 12px;
-            font-size: 13px;
+            padding: 12px 15px;
+            font-size: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            border-bottom: 1px solid #EEE;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
         }
 
         .dropdown-item:hover {
@@ -307,60 +282,44 @@
         .dropdown-item.selected {
             background: #E6F0FF;
             color: var(--primary-blue);
+            font-weight: 500;
         }
 
-        .checkbox {
-            width: 16px;
-            height: 16px;
+        .dropdown-checkbox {
+            width: 18px;
+            height: 18px;
             border: 2px solid #CCC;
             border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
+            transition: all 0.2s;
         }
 
-        .checkbox.checked {
+        .dropdown-item.selected .dropdown-checkbox {
             background: var(--primary-blue);
             border-color: var(--primary-blue);
             color: var(--white);
-            font-size: 10px;
         }
 
-        .slicer-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .slicer-btn {
-            padding: 8px 16px;
-            border: 1px solid #DDD;
-            border-radius: 4px;
-            font-size: 12px;
+        .clear-filters-btn {
+            background: transparent;
+            border: 2px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            background: var(--white);
-        }
-
-        .slicer-btn:hover {
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-
-        .slicer-btn.active {
-            background: var(--primary-blue);
-            border-color: var(--primary-blue);
-            color: var(--white);
-        }
-
-        .clear-btn {
-            background: transparent;
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
             margin-left: auto;
+            align-self: flex-end;
+        }
+
+        .clear-filters-btn:hover {
+            background: var(--accent-green);
+            color: var(--white);
         }
 
         /* KPI Cards */
@@ -376,32 +335,43 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
         }
 
         .kpi-label {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--medium-gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
+            font-weight: 600;
         }
 
         .kpi-value {
             font-size: 32px;
             font-weight: 700;
             color: var(--dark-bg);
+            transition: all 0.3s;
         }
 
         .kpi-value.blue { color: var(--primary-blue); }
         .kpi-value.green { color: var(--accent-green); }
+        .kpi-value.orange { color: var(--warning-orange); }
+        .kpi-value.red { color: var(--danger-red); }
 
         .kpi-change {
             font-size: 12px;
             margin-top: 8px;
+            color: var(--medium-gray);
         }
 
         .kpi-change.up { color: var(--accent-green); }
-        .kpi-change.down { color: #E74C3C; }
+        .kpi-change.down { color: var(--danger-red); }
 
         /* Data Table */
         .data-table {
@@ -417,6 +387,7 @@
             align-items: center;
             padding: 15px 20px;
             border-bottom: 1px solid #EEE;
+            background: #FAFBFC;
         }
 
         .table-title {
@@ -426,11 +397,17 @@
         }
 
         .table-search {
-            padding: 8px 12px;
-            border: 1px solid #DDD;
-            border-radius: 4px;
+            padding: 10px 15px;
+            border: 2px solid #DDD;
+            border-radius: 6px;
             font-size: 13px;
-            width: 200px;
+            width: 250px;
+            transition: border-color 0.2s;
+        }
+
+        .table-search:focus {
+            outline: none;
+            border-color: var(--primary-blue);
         }
 
         table {
@@ -440,10 +417,10 @@
 
         th {
             background: #F8F9FA;
-            padding: 12px 15px;
+            padding: 14px 15px;
             text-align: left;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             color: var(--text-gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -451,9 +428,13 @@
         }
 
         td {
-            padding: 12px 15px;
+            padding: 14px 15px;
             font-size: 13px;
             border-bottom: 1px solid #F0F0F0;
+        }
+
+        tr {
+            transition: background 0.2s;
         }
 
         tr:hover {
@@ -462,30 +443,36 @@
 
         .status-badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 5px 12px;
+            border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .status-badge.in-stock { background: #E8F5E9; color: #2E7D32; }
-        .status-badge.shipped { background: #E3F2FD; color: #1565C0; }
-        .status-badge.in-transit { background: #FFF3E0; color: #EF6C00; }
-        .status-badge.delivered { background: #E0F2F1; color: #00796B; }
         .status-badge.pending { background: #FFF8E1; color: #F9A825; }
+        .status-badge.in-transit { background: #E3F2FD; color: #1565C0; }
+        .status-badge.delivered { background: #E0F2F1; color: #00796B; }
         .status-badge.active { background: #E8F5E9; color: #2E7D32; }
         .status-badge.expired { background: #FFEBEE; color: #C62828; }
         .status-badge.scheduled { background: #E3F2FD; color: #1565C0; }
+        .status-badge.requested { background: #FFF3E0; color: #EF6C00; }
 
-        /* Charts Placeholder */
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Chart Container */
         .chart-container {
             background: var(--white);
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            height: 250px;
-            display: flex;
-            flex-direction: column;
         }
 
         .chart-title {
@@ -495,595 +482,482 @@
             margin-bottom: 15px;
         }
 
-        .chart-area {
-            flex: 1;
+        .chart-bars {
             display: flex;
             align-items: flex-end;
             gap: 15px;
-            padding: 10px 0;
+            height: 200px;
+            padding-top: 20px;
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
         }
 
         .chart-bar {
-            flex: 1;
+            width: 100%;
             background: linear-gradient(180deg, var(--primary-blue) 0%, #0044CC 100%);
             border-radius: 4px 4px 0 0;
-            position: relative;
+            transition: height 0.5s ease;
         }
 
-        .chart-bar.accent {
+        .chart-bar.green {
             background: linear-gradient(180deg, var(--accent-green) 0%, #4CAF50 100%);
         }
 
+        .chart-bar.orange {
+            background: linear-gradient(180deg, var(--warning-orange) 0%, #FF8F00 100%);
+        }
+
         .chart-bar-label {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10px;
+            font-size: 11px;
             color: var(--medium-gray);
+            margin-top: 10px;
+            text-align: center;
         }
 
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
+        .chart-bar-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dark-bg);
+            margin-bottom: 5px;
         }
 
-        /* Asset Flow Diagram */
+        /* Asset Flow */
         .asset-flow {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px;
-            background: linear-gradient(135deg, #F8F9FA 0%, var(--white) 100%);
-            border-radius: 12px;
-            margin: 30px 0;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .flow-step {
             text-align: center;
             flex: 1;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .flow-step:hover {
+            background: #F5F6FA;
+        }
+
+        .flow-step.active {
+            background: #E6F0FF;
         }
 
         .flow-icon {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: var(--primary-blue);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 32px;
+            margin: 0 auto 12px;
+            font-size: 24px;
             color: var(--white);
+            transition: transform 0.2s;
+        }
+
+        .flow-step:hover .flow-icon {
+            transform: scale(1.1);
         }
 
         .flow-icon.green { background: var(--accent-green); }
+        .flow-icon.orange { background: #EF6C00; }
+        .flow-icon.purple { background: #9C27B0; }
 
         .flow-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--dark-bg);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .flow-desc {
-            font-size: 13px;
-            color: var(--medium-gray);
+        .flow-count {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
         }
 
         .flow-arrow {
-            font-size: 30px;
-            color: var(--primary-blue);
-            padding: 0 20px;
+            font-size: 24px;
+            color: #CCC;
         }
 
-        /* Feature Boxes */
-        .feature-grid {
+        /* Summary Cards */
+        .summary-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-top: 30px;
+            gap: 20px;
+            margin-top: 20px;
         }
 
-        .feature-box {
+        .summary-card {
             background: var(--white);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-top: 4px solid var(--primary-blue);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--primary-blue);
         }
 
-        .feature-box.green { border-top-color: var(--accent-green); }
+        .summary-card.green { border-left-color: var(--accent-green); }
+        .summary-card.orange { border-left-color: var(--warning-orange); }
 
-        .feature-box h3 {
-            font-size: 18px;
-            color: var(--dark-bg);
-            margin-bottom: 12px;
-        }
-
-        .feature-box p {
+        .summary-card h3 {
             font-size: 14px;
-            color: var(--medium-gray);
-            line-height: 1.7;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        .feature-list {
-            margin-top: 15px;
-        }
-
-        .feature-list li {
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
             font-size: 13px;
-            color: var(--text-gray);
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
+            border-bottom: 1px solid #F0F0F0;
         }
 
-        .feature-list li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--accent-green);
-            font-weight: bold;
+        .summary-item:last-child {
+            border-bottom: none;
         }
 
-        /* Dropdown Demo Section */
-        .dropdown-demo {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        .summary-item-label {
+            color: var(--medium-gray);
         }
 
-        .dropdown-demo-title {
-            font-size: 18px;
+        .summary-item-value {
+            font-weight: 600;
+            color: var(--dark-bg);
+        }
+
+        /* Filter Active State Indicator */
+        .filter-indicator {
+            display: inline-block;
+            background: var(--primary-blue);
+            color: var(--white);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        /* Page Title */
+        .page-title {
+            font-size: 24px;
             font-weight: 600;
             color: var(--dark-bg);
             margin-bottom: 20px;
         }
 
-        .demo-row {
-            display: flex;
-            gap: 40px;
-            align-items: flex-start;
-        }
-
-        .demo-slicer {
-            flex: 1;
-        }
-
-        .demo-slicer-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-gray);
-            margin-bottom: 10px;
-        }
-
-        .demo-dropdown {
-            position: relative;
-            width: 100%;
-        }
-
-        .demo-dropdown-trigger {
-            background: var(--white);
-            border: 2px solid var(--primary-blue);
-            border-radius: 6px;
-            padding: 12px 40px 12px 15px;
-            font-size: 14px;
-            color: var(--dark-bg);
-            width: 100%;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .demo-dropdown-trigger::after {
-            content: "▼";
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-blue);
-        }
-
-        .demo-dropdown-menu {
-            background: var(--white);
-            border: 2px solid var(--primary-blue);
-            border-top: none;
-            border-radius: 0 0 6px 6px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .demo-dropdown-item {
-            padding: 12px 15px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #EEE;
-        }
-
-        .demo-dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .demo-dropdown-item:hover {
-            background: #F0F7FF;
-        }
-
-        .demo-checkbox {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #CCC;
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .demo-checkbox.checked {
-            background: var(--primary-blue);
-            border-color: var(--primary-blue);
-            color: var(--white);
-        }
-
-        .demo-result {
-            flex: 1;
-            background: #F8F9FA;
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .demo-result-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--medium-gray);
-            margin-bottom: 15px;
-        }
-
-        .demo-result-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
-
-        .demo-result-change {
-            font-size: 14px;
-            color: var(--accent-green);
-            margin-top: 5px;
-        }
-
-        /* Slide Footer */
-        .slide-footer {
-            position: absolute;
-            bottom: 30px;
-            left: 80px;
-            right: 80px;
+        /* Footer */
+        .app-footer {
+            background: var(--dark-bg);
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 12px;
             color: var(--medium-gray);
+            border-top: 1px solid #444;
         }
 
-        /* Annotations */
-        .annotation {
-            position: absolute;
-            background: var(--accent-green);
-            color: var(--white);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(97, 206, 112, 0.4);
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .annotation::before {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 0;
-            border: 8px solid transparent;
-        }
-
-        .annotation.left::before {
-            right: -16px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-left-color: var(--accent-green);
-        }
-
-        .annotation.bottom::before {
-            bottom: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-top-color: var(--accent-green);
-        }
-
-        /* Intro Text */
-        .intro-text {
-            font-size: 18px;
-            color: var(--text-gray);
-            line-height: 1.8;
-            max-width: 900px;
-            margin-bottom: 30px;
-        }
-
-        .highlight {
-            color: var(--primary-blue);
-            font-weight: 600;
-        }
-
-        /* Section Divider */
-        .section-divider {
-            width: 60px;
-            height: 4px;
-            background: var(--accent-green);
-            margin: 20px 0;
-        }
+        .footer-brand .dot { color: var(--primary-blue); }
+        .footer-brand .pop { color: var(--accent-green); }
     </style>
 </head>
 <body>
+    <div class="app-container">
+        <!-- Browser Chrome -->
+        <div class="browser-chrome">
+            <div class="browser-dots">
+                <div class="browser-dot red"></div>
+                <div class="browser-dot yellow"></div>
+                <div class="browser-dot green"></div>
+            </div>
+            <div class="url-bar">
+                <span class="lock">🔒</span>
+                <span class="url-text" id="url-display">https://app.powerbi.com/dotdesignpop/dashboard</span>
+            </div>
+        </div>
 
-    <!-- Slide 1: Cover -->
-    <div class="slide slide-cover">
-        <div class="logo-container">
-            <div class="logo">
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <div class="nav-logo" onclick="switchTab('dashboard')">
                 <span class="dot">dot</span><span class="design">: design </span><span class="pop">pop</span>
             </div>
-            <div class="cover-subtitle">Power BI Analytics Portal</div>
-        </div>
-        <div class="cover-tagline">Client Web Portal Preview</div>
-    </div>
-
-    <!-- Slide 2: Dashboard Overview -->
-    <div class="slide">
-        <div class="slide-header">
-            <div class="slide-title">Dashboard Home</div>
-            <div class="mini-logo"><span class="dot">dot</span>: design <span class="pop">pop</span></div>
-        </div>
-
-        <div class="dashboard-mockup">
-            <div class="dashboard-header">
-                <div class="browser-dots">
-                    <div class="browser-dot red"></div>
-                    <div class="browser-dot yellow"></div>
-                    <div class="browser-dot green"></div>
-                </div>
-                <div class="url-bar">
-                    <span class="lock">🔒</span>
-                    <span>https://app.powerbi.com/dotdesignpop/dashboard</span>
-                </div>
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</div>
+                <div class="nav-tab" data-tab="warehouse" onclick="switchTab('warehouse')">Warehouse</div>
+                <div class="nav-tab" data-tab="shipments" onclick="switchTab('shipments')">Shipments</div>
+                <div class="nav-tab" data-tab="warranty" onclick="switchTab('warranty')">Warranty & Service</div>
             </div>
+        </nav>
 
-            <div class="dashboard-nav">
-                <div class="nav-logo">DotDesignPop</div>
-                <div class="nav-tabs">
-                    <div class="nav-tab active">Dashboard</div>
-                    <div class="nav-tab">Warehouse</div>
-                    <div class="nav-tab">Shipments</div>
-                    <div class="nav-tab">Warranty & Service</div>
-                    <div class="nav-tab">Revenue</div>
-                    <div class="nav-tab">Customers</div>
-                </div>
-            </div>
-
-            <div class="dashboard-content">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="page-dashboard">
                 <div class="slicer-panel">
                     <div class="slicer-title">Filter Dashboard</div>
                     <div class="slicer-row">
+                        <!-- Warehouse Filter -->
                         <div class="slicer">
-                            <div class="slicer-label">Region</div>
-                            <div class="slicer-dropdown">All Regions</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Client</div>
-                            <div class="slicer-dropdown">All Clients</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Product Category</div>
-                            <div class="slicer-dropdown">All Categories</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Year</div>
-                            <div class="slicer-dropdown">2024</div>
-                        </div>
-                        <div class="slicer" style="min-width: 200px;">
-                            <div class="slicer-label">Quarter</div>
-                            <div class="slicer-buttons">
-                                <div class="slicer-btn">Q1</div>
-                                <div class="slicer-btn active">Q2</div>
-                                <div class="slicer-btn">Q3</div>
-                                <div class="slicer-btn">Q4</div>
+                            <div class="slicer-label">Warehouse</div>
+                            <div class="custom-dropdown" data-filter="warehouse">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">
+                                    All Inventory
+                                </div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Inventory</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="pending" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Pending Arrival</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="active" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Active Inventory</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button class="clear-btn">Clear All Filters</button>
+
+                        <!-- Active Shipments Filter -->
+                        <div class="slicer">
+                            <div class="slicer-label">Active Shipments</div>
+                            <div class="custom-dropdown" data-filter="shipments">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">
+                                    All Shipments
+                                </div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Shipments</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="picked-up" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Picked Up / In Transit</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="scheduling" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Scheduling for Delivery</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="history" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Shipment History</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Warranty & Service Filter -->
+                        <div class="slicer">
+                            <div class="slicer-label">Warranty & Service</div>
+                            <div class="custom-dropdown" data-filter="warranty">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">
+                                    All Status
+                                </div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Status</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="active-warranty" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Units with Active Warranties</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="warranty-requests" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Warranty Requests</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="in-scheduling" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Service Status - In Scheduling</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="scheduled" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Service Scheduled</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="clear-filters-btn" onclick="clearAllFilters()">Clear All Filters</button>
                     </div>
                 </div>
 
-                <div class="kpi-row">
+                <!-- Asset Flow Overview -->
+                <div class="asset-flow">
+                    <div class="flow-step" onclick="switchTab('warehouse')">
+                        <div class="flow-icon">📦</div>
+                        <div class="flow-title">Warehouse</div>
+                        <div class="flow-count" id="dash-warehouse-count">1,247</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" onclick="switchTab('shipments')">
+                        <div class="flow-icon orange">🚚</div>
+                        <div class="flow-title">Active Shipments</div>
+                        <div class="flow-count" id="dash-shipments-count">89</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-icon green">✓</div>
+                        <div class="flow-title">Delivered</div>
+                        <div class="flow-count" id="dash-delivered-count">3,892</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" onclick="switchTab('warranty')">
+                        <div class="flow-icon purple">🔧</div>
+                        <div class="flow-title">Warranty & Service</div>
+                        <div class="flow-count" id="dash-warranty-count">2,847</div>
+                    </div>
+                </div>
+
+                <!-- KPI Row -->
+                <div class="kpi-row" id="dashboard-kpis">
                     <div class="kpi-card">
-                        <div class="kpi-label">Total Revenue</div>
-                        <div class="kpi-value">$2.4M</div>
-                        <div class="kpi-change up">↑ 12.5% vs LY</div>
+                        <div class="kpi-label">Pending Arrival</div>
+                        <div class="kpi-value orange" id="kpi-pending">156</div>
+                        <div class="kpi-change">Expected this week</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Units in Warehouse</div>
-                        <div class="kpi-value blue">1,247</div>
-                        <div class="kpi-change">Available for shipment</div>
+                        <div class="kpi-label">Active Inventory</div>
+                        <div class="kpi-value green" id="kpi-active-inv">1,247</div>
+                        <div class="kpi-change up">↑ 8% vs last month</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Active Shipments</div>
-                        <div class="kpi-value green">89</div>
-                        <div class="kpi-change">42 in transit</div>
+                        <div class="kpi-label">In Transit</div>
+                        <div class="kpi-value blue" id="kpi-transit">42</div>
+                        <div class="kpi-change">12 arriving today</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Service Requests</div>
-                        <div class="kpi-value">23</div>
+                        <div class="kpi-value" id="kpi-service">23</div>
                         <div class="kpi-change">8 pending schedule</div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="slide-footer">
-            <div>Client Portal Preview</div>
-            <div>Confidential</div>
-        </div>
-    </div>
-
-    <!-- Slide 3: Interactive Slicers Demo -->
-    <div class="slide">
-        <div class="slide-header">
-            <div class="slide-title">Interactive Filtering System</div>
-            <div class="mini-logo"><span class="dot">dot</span>: design <span class="pop">pop</span></div>
-        </div>
-
-        <p class="intro-text">
-            Every page includes <span class="highlight">dynamic slicers</span> that instantly filter all data visualizations.
-            Select a region, client, or time period and watch the entire dashboard update in real-time.
-        </p>
-
-        <div class="dropdown-demo">
-            <div class="dropdown-demo-title">How Slicer Filtering Works</div>
-            <div class="demo-row">
-                <div class="demo-slicer">
-                    <div class="demo-slicer-label">1. Select a Region</div>
-                    <div class="demo-dropdown">
-                        <div class="demo-dropdown-trigger">Southeast ▸</div>
-                        <div class="demo-dropdown-menu">
-                            <div class="demo-dropdown-item">
-                                <div class="demo-checkbox">✓</div>
-                                <span>Select All</span>
-                            </div>
-                            <div class="demo-dropdown-item">
-                                <div class="demo-checkbox"></div>
-                                <span>Northeast</span>
-                            </div>
-                            <div class="demo-dropdown-item">
-                                <div class="demo-checkbox checked">✓</div>
-                                <span>Southeast</span>
-                            </div>
-                            <div class="demo-dropdown-item">
-                                <div class="demo-checkbox"></div>
-                                <span>Midwest</span>
-                            </div>
-                            <div class="demo-dropdown-item">
-                                <div class="demo-checkbox"></div>
-                                <span>Southwest</span>
-                            </div>
-                            <div class="demo-dropdown-item">
-                                <div class="demo-checkbox"></div>
-                                <span>West</span>
-                            </div>
+                <!-- Summary Cards -->
+                <div class="summary-row">
+                    <div class="summary-card">
+                        <h3>Warehouse Summary</h3>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Pending Arrival</span>
+                            <span class="summary-item-value" id="sum-pending">156</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Active Inventory</span>
+                            <span class="summary-item-value" id="sum-active">1,247</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Exited (Shipped)</span>
+                            <span class="summary-item-value" id="sum-exited">3,892</span>
+                        </div>
+                    </div>
+                    <div class="summary-card green">
+                        <h3>Shipment Summary</h3>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Picked Up / In Transit</span>
+                            <span class="summary-item-value" id="sum-transit">42</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Scheduling Delivery</span>
+                            <span class="summary-item-value" id="sum-scheduling">12</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Delivered (History)</span>
+                            <span class="summary-item-value" id="sum-delivered">3,892</span>
+                        </div>
+                    </div>
+                    <div class="summary-card orange">
+                        <h3>Warranty & Service</h3>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Active Warranties</span>
+                            <span class="summary-item-value" id="sum-warranties">2,847</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Warranty Requests</span>
+                            <span class="summary-item-value" id="sum-requests">23</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">Service Scheduled</span>
+                            <span class="summary-item-value" id="sum-scheduled">15</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="demo-slicer">
-                    <div class="demo-slicer-label">2. Select VIP Status</div>
-                    <div class="slicer-buttons" style="margin-top: 10px;">
-                        <div class="slicer-btn">Standard</div>
-                        <div class="slicer-btn">Gold</div>
-                        <div class="slicer-btn active">Platinum</div>
-                    </div>
-                </div>
-
-                <div class="demo-result">
-                    <div class="demo-result-title">Filtered Results Update</div>
-                    <div class="demo-result-value">$847,230</div>
-                    <div class="demo-result-change">↑ Southeast Platinum Revenue</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="feature-grid">
-            <div class="feature-box">
-                <h3>Multi-Select Filters</h3>
-                <p>Hold Ctrl/Cmd to select multiple values simultaneously. Filter by multiple regions, clients, or categories at once.</p>
-            </div>
-            <div class="feature-box green">
-                <h3>Search Within Slicers</h3>
-                <p>Start typing to instantly search through long lists. Find specific clients, SKUs, or serial numbers quickly.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Cross-Page Filtering</h3>
-                <p>Selections carry across dashboard pages. Filter once, see consistent data throughout your analysis.</p>
-            </div>
-        </div>
-
-        <div class="slide-footer">
-            <div>Client Portal Preview</div>
-            <div>Confidential</div>
-        </div>
-    </div>
-
-    <!-- Slide 4: Warehouse - SKU Level -->
-    <div class="slide">
-        <div class="slide-header">
-            <div class="slide-title">Warehouse Storage - SKU Level Tracking</div>
-            <div class="mini-logo"><span class="dot">dot</span>: design <span class="pop">pop</span></div>
-        </div>
-
-        <div class="dashboard-mockup">
-            <div class="dashboard-header">
-                <div class="browser-dots">
-                    <div class="browser-dot red"></div>
-                    <div class="browser-dot yellow"></div>
-                    <div class="browser-dot green"></div>
-                </div>
-                <div class="url-bar">
-                    <span class="lock">🔒</span>
-                    <span>https://app.powerbi.com/dotdesignpop/warehouse</span>
-                </div>
             </div>
 
-            <div class="dashboard-nav">
-                <div class="nav-logo">DotDesignPop</div>
-                <div class="nav-tabs">
-                    <div class="nav-tab">Dashboard</div>
-                    <div class="nav-tab active">Warehouse</div>
-                    <div class="nav-tab">Shipments</div>
-                    <div class="nav-tab">Warranty & Service</div>
-                    <div class="nav-tab">Revenue</div>
-                    <div class="nav-tab">Customers</div>
-                </div>
-            </div>
+            <!-- Warehouse Page -->
+            <div class="page" id="page-warehouse">
+                <h1 class="page-title">Warehouse Storage - SKU Level Tracking</h1>
 
-            <div class="dashboard-content">
                 <div class="slicer-panel">
                     <div class="slicer-title">Warehouse Filters</div>
                     <div class="slicer-row">
                         <div class="slicer">
-                            <div class="slicer-label">Region</div>
-                            <div class="slicer-dropdown">All Regions</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Warehouse Location</div>
-                            <div class="slicer-dropdown open" style="position: relative;">
-                                Phoenix Warehouse
-                                <div class="dropdown-menu" style="position: absolute; top: 100%; left: 0; right: 0;">
-                                    <div class="dropdown-item selected"><div class="checkbox checked">✓</div> Phoenix Warehouse</div>
-                                    <div class="dropdown-item"><div class="checkbox"></div> Dallas Warehouse</div>
-                                    <div class="dropdown-item"><div class="checkbox"></div> Atlanta Warehouse</div>
-                                    <div class="dropdown-item"><div class="checkbox"></div> Chicago Warehouse</div>
+                            <div class="slicer-label">Inventory Status</div>
+                            <div class="custom-dropdown" data-filter="wh-status">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Status</div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Status</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="pending" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Pending Arrival</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="active" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Active Inventory</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="slicer">
-                            <div class="slicer-label">Product/SKU</div>
-                            <div class="slicer-dropdown">Search SKU...</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Status</div>
-                            <div class="slicer-buttons">
-                                <div class="slicer-btn active">In Stock</div>
-                                <div class="slicer-btn">Pending</div>
-                                <div class="slicer-btn">Shipped</div>
+                            <div class="slicer-label">Location</div>
+                            <div class="custom-dropdown" data-filter="wh-location">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Locations</div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Locations</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="phoenix" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Phoenix Warehouse</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="dallas" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Dallas Warehouse</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="atlanta" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Atlanta Warehouse</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1092,10 +966,10 @@
                 <div class="kpi-row">
                     <div class="kpi-card">
                         <div class="kpi-label">Pending Arrival</div>
-                        <div class="kpi-value" style="color: #F9A825;">156</div>
+                        <div class="kpi-value orange">156</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Available Inventory</div>
+                        <div class="kpi-label">Active Inventory</div>
                         <div class="kpi-value green">1,247</div>
                     </div>
                     <div class="kpi-card">
@@ -1103,7 +977,7 @@
                         <div class="kpi-value blue">3,892</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Warehouse Fill Rate</div>
+                        <div class="kpi-label">Fill Rate</div>
                         <div class="kpi-value">78%</div>
                     </div>
                 </div>
@@ -1122,10 +996,9 @@
                                 <th>Qty Available</th>
                                 <th>Qty Pending</th>
                                 <th>Status</th>
-                                <th>Last Updated</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="warehouse-table">
                             <tr>
                                 <td><strong>DDP-WR-001</strong></td>
                                 <td>Wire Rack Display</td>
@@ -1133,7 +1006,6 @@
                                 <td>245</td>
                                 <td>50</td>
                                 <td><span class="status-badge in-stock">In Stock</span></td>
-                                <td>Dec 5, 2024</td>
                             </tr>
                             <tr>
                                 <td><strong>DDP-SH-002</strong></td>
@@ -1142,109 +1014,98 @@
                                 <td>180</td>
                                 <td>25</td>
                                 <td><span class="status-badge in-stock">In Stock</span></td>
-                                <td>Dec 5, 2024</td>
                             </tr>
                             <tr>
                                 <td><strong>DDP-FR-003</strong></td>
                                 <td>Fridge Model 1</td>
-                                <td>Phoenix Warehouse</td>
+                                <td>Dallas Warehouse</td>
                                 <td>0</td>
                                 <td>75</td>
                                 <td><span class="status-badge pending">Pending</span></td>
-                                <td>Dec 4, 2024</td>
                             </tr>
                             <tr>
                                 <td><strong>DDP-CR-004</strong></td>
                                 <td>Cooler Rack</td>
-                                <td>Phoenix Warehouse</td>
+                                <td>Atlanta Warehouse</td>
                                 <td>122</td>
                                 <td>0</td>
                                 <td><span class="status-badge in-stock">In Stock</span></td>
-                                <td>Dec 5, 2024</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
 
-        <div class="slide-footer">
-            <div>Client Portal Preview</div>
-            <div>Confidential</div>
-        </div>
-    </div>
+            <!-- Shipments Page -->
+            <div class="page" id="page-shipments">
+                <h1 class="page-title">Shipment Tracking - Serial Number Visibility</h1>
 
-    <!-- Slide 5: Shipment Tracking - Serial Number -->
-    <div class="slide">
-        <div class="slide-header">
-            <div class="slide-title">Shipment Tracking - Serial Number Visibility</div>
-            <div class="mini-logo"><span class="dot">dot</span>: design <span class="pop">pop</span></div>
-        </div>
-
-        <div class="dashboard-mockup">
-            <div class="dashboard-header">
-                <div class="browser-dots">
-                    <div class="browser-dot red"></div>
-                    <div class="browser-dot yellow"></div>
-                    <div class="browser-dot green"></div>
-                </div>
-                <div class="url-bar">
-                    <span class="lock">🔒</span>
-                    <span>https://app.powerbi.com/dotdesignpop/shipments</span>
-                </div>
-            </div>
-
-            <div class="dashboard-nav">
-                <div class="nav-logo">DotDesignPop</div>
-                <div class="nav-tabs">
-                    <div class="nav-tab">Dashboard</div>
-                    <div class="nav-tab">Warehouse</div>
-                    <div class="nav-tab active">Shipments</div>
-                    <div class="nav-tab">Warranty & Service</div>
-                    <div class="nav-tab">Revenue</div>
-                    <div class="nav-tab">Customers</div>
-                </div>
-            </div>
-
-            <div class="dashboard-content">
                 <div class="slicer-panel">
                     <div class="slicer-title">Shipment Filters</div>
                     <div class="slicer-row">
                         <div class="slicer">
-                            <div class="slicer-label">Region</div>
-                            <div class="slicer-dropdown">Southeast</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Client</div>
-                            <div class="slicer-dropdown">MWM + Evergreen</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Delivery Status</div>
-                            <div class="slicer-buttons">
-                                <div class="slicer-btn">Pending</div>
-                                <div class="slicer-btn active">In Transit</div>
-                                <div class="slicer-btn">Delivered</div>
+                            <div class="slicer-label">Shipment Status</div>
+                            <div class="custom-dropdown" data-filter="ship-status">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Shipments</div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Shipments</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="picked-up" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Picked Up / In Transit</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="scheduling" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Scheduling for Delivery</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="history" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Shipment History</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="slicer">
                             <div class="slicer-label">Carrier</div>
-                            <div class="slicer-dropdown">All Carriers</div>
+                            <div class="custom-dropdown" data-filter="ship-carrier">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Carriers</div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Carriers</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="fedex" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>FedEx</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="ups" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>UPS</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="freight" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Freight</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="kpi-row">
                     <div class="kpi-card">
-                        <div class="kpi-label">Pending Pickup</div>
-                        <div class="kpi-value" style="color: #F9A825;">12</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">In Transit</div>
+                        <div class="kpi-label">Picked Up / In Transit</div>
                         <div class="kpi-value blue">42</div>
                     </div>
                     <div class="kpi-card">
+                        <div class="kpi-label">Scheduling Delivery</div>
+                        <div class="kpi-value orange">12</div>
+                    </div>
+                    <div class="kpi-card">
                         <div class="kpi-label">Out for Delivery</div>
-                        <div class="kpi-value" style="color: #EF6C00;">8</div>
+                        <div class="kpi-value">8</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Delivered Today</div>
@@ -1265,18 +1126,16 @@
                                 <th>Client</th>
                                 <th>Destination</th>
                                 <th>Carrier</th>
-                                <th>Ship Date</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="shipments-table">
                             <tr>
                                 <td><strong>DDP-2024-001247</strong></td>
                                 <td>Wire Rack Display</td>
                                 <td>MWM Atlanta</td>
                                 <td>Atlanta, GA</td>
                                 <td>FedEx</td>
-                                <td>Dec 3, 2024</td>
                                 <td><span class="status-badge in-transit">In Transit</span></td>
                             </tr>
                             <tr>
@@ -1285,7 +1144,6 @@
                                 <td>Evergreen Miami</td>
                                 <td>Miami, FL</td>
                                 <td>UPS</td>
-                                <td>Dec 4, 2024</td>
                                 <td><span class="status-badge in-transit">In Transit</span></td>
                             </tr>
                             <tr>
@@ -1294,8 +1152,7 @@
                                 <td>MWM Charlotte</td>
                                 <td>Charlotte, NC</td>
                                 <td>FedEx Freight</td>
-                                <td>Dec 5, 2024</td>
-                                <td><span class="status-badge pending">Pending</span></td>
+                                <td><span class="status-badge pending">Scheduling</span></td>
                             </tr>
                             <tr>
                                 <td><strong>DDP-2024-001250</strong></td>
@@ -1303,78 +1160,70 @@
                                 <td>Evergreen Tampa</td>
                                 <td>Tampa, FL</td>
                                 <td>UPS</td>
-                                <td>Dec 2, 2024</td>
                                 <td><span class="status-badge delivered">Delivered</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
 
-        <div class="slide-footer">
-            <div>Client Portal Preview</div>
-            <div>Confidential</div>
-        </div>
-    </div>
+            <!-- Warranty & Service Page -->
+            <div class="page" id="page-warranty">
+                <h1 class="page-title">Warranty & Service - Asset Lifecycle by Serial Number</h1>
 
-    <!-- Slide 6: Warranty & Service - Serial Number -->
-    <div class="slide">
-        <div class="slide-header">
-            <div class="slide-title">Warranty & Service - Asset Lifecycle by Serial Number</div>
-            <div class="mini-logo"><span class="dot">dot</span>: design <span class="pop">pop</span></div>
-        </div>
-
-        <div class="dashboard-mockup">
-            <div class="dashboard-header">
-                <div class="browser-dots">
-                    <div class="browser-dot red"></div>
-                    <div class="browser-dot yellow"></div>
-                    <div class="browser-dot green"></div>
-                </div>
-                <div class="url-bar">
-                    <span class="lock">🔒</span>
-                    <span>https://app.powerbi.com/dotdesignpop/warranty-service</span>
-                </div>
-            </div>
-
-            <div class="dashboard-nav">
-                <div class="nav-logo">DotDesignPop</div>
-                <div class="nav-tabs">
-                    <div class="nav-tab">Dashboard</div>
-                    <div class="nav-tab">Warehouse</div>
-                    <div class="nav-tab">Shipments</div>
-                    <div class="nav-tab active">Warranty & Service</div>
-                    <div class="nav-tab">Revenue</div>
-                    <div class="nav-tab">Customers</div>
-                </div>
-            </div>
-
-            <div class="dashboard-content">
                 <div class="slicer-panel">
                     <div class="slicer-title">Warranty & Service Filters</div>
                     <div class="slicer-row">
                         <div class="slicer">
-                            <div class="slicer-label">Serial Number</div>
-                            <div class="slicer-dropdown">Search Serial...</div>
-                        </div>
-                        <div class="slicer">
                             <div class="slicer-label">Warranty Status</div>
-                            <div class="slicer-buttons">
-                                <div class="slicer-btn active">Under Warranty</div>
-                                <div class="slicer-btn">Expired</div>
+                            <div class="custom-dropdown" data-filter="war-status">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Status</div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Status</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="active" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Units with Active Warranties</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="requests" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Warranty Requests</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="in-scheduling" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Service Status - In Scheduling</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="scheduled" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Service Scheduled</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="slicer">
                             <div class="slicer-label">Service Status</div>
-                            <div class="slicer-dropdown">All Statuses</div>
-                        </div>
-                        <div class="slicer">
-                            <div class="slicer-label">Priority</div>
-                            <div class="slicer-buttons">
-                                <div class="slicer-btn" style="border-color: #C62828; color: #C62828;">High</div>
-                                <div class="slicer-btn">Medium</div>
-                                <div class="slicer-btn">Low</div>
+                            <div class="custom-dropdown" data-filter="war-service">
+                                <div class="dropdown-trigger" onclick="toggleDropdown(this)">All Service</div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item selected" data-value="all" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox">✓</div>
+                                        <span>All Service</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="no-issues" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>No Issues</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="requested" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Service Requested</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="scheduled" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Service Scheduled</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1386,16 +1235,16 @@
                         <div class="kpi-value green">2,847</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Service Requested</div>
-                        <div class="kpi-value" style="color: #F9A825;">23</div>
+                        <div class="kpi-label">Warranty Requests</div>
+                        <div class="kpi-value orange">23</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Repair Scheduled</div>
+                        <div class="kpi-label">In Scheduling</div>
+                        <div class="kpi-value">8</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Service Scheduled</div>
                         <div class="kpi-value blue">15</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Expired Warranties</div>
-                        <div class="kpi-value" style="color: #C62828;">412</div>
                     </div>
                 </div>
 
@@ -1410,48 +1259,43 @@
                                 <th>Serial Number</th>
                                 <th>Product</th>
                                 <th>Client</th>
-                                <th>Install Date</th>
                                 <th>Warranty Expires</th>
                                 <th>Warranty Status</th>
                                 <th>Service Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="warranty-table">
                             <tr>
                                 <td><strong>DDP-2024-001247</strong></td>
                                 <td>Wire Rack Display</td>
                                 <td>MWM Atlanta</td>
-                                <td>Dec 5, 2024</td>
                                 <td>Dec 5, 2025</td>
-                                <td><span class="status-badge active">Under Warranty</span></td>
+                                <td><span class="status-badge active">Active</span></td>
                                 <td><span class="status-badge in-stock">No Issues</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>DDP-2023-000892</strong></td>
-                                <td>Fridge Model 1</td>
-                                <td>Evergreen Tampa</td>
-                                <td>Mar 15, 2023</td>
-                                <td>Mar 15, 2024</td>
-                                <td><span class="status-badge expired">Expired</span></td>
-                                <td><span class="status-badge pending">Requested</span></td>
                             </tr>
                             <tr>
                                 <td><strong>DDP-2024-001156</strong></td>
                                 <td>Cooler Rack</td>
                                 <td>MWM Charlotte</td>
-                                <td>Oct 22, 2024</td>
                                 <td>Oct 22, 2025</td>
-                                <td><span class="status-badge active">Under Warranty</span></td>
+                                <td><span class="status-badge active">Active</span></td>
                                 <td><span class="status-badge scheduled">Scheduled</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>DDP-2023-000892</strong></td>
+                                <td>Fridge Model 1</td>
+                                <td>Evergreen Tampa</td>
+                                <td>Mar 15, 2024</td>
+                                <td><span class="status-badge expired">Expired</span></td>
+                                <td><span class="status-badge requested">Requested</span></td>
                             </tr>
                             <tr>
                                 <td><strong>DDP-2024-000743</strong></td>
                                 <td>Shipper Unit</td>
                                 <td>MWM Miami</td>
-                                <td>Jun 8, 2024</td>
                                 <td>Jun 8, 2025</td>
-                                <td><span class="status-badge active">Under Warranty</span></td>
-                                <td><span class="status-badge in-stock">No Issues</span></td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><span class="status-badge pending">In Scheduling</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1459,88 +1303,211 @@
             </div>
         </div>
 
-        <div class="slide-footer">
-            <div>Client Portal Preview</div>
-            <div>Confidential</div>
+        <!-- Footer -->
+        <div class="app-footer">
+            <div class="footer-brand">
+                <span><span class="dot">dot</span>: design <span class="pop">pop</span></span>
+                <span>|</span>
+                <span>Power BI Analytics Portal</span>
+            </div>
+            <div>Interactive Demo - Client Preview</div>
         </div>
     </div>
 
-    <!-- Slide 7: Asset Tracking End-to-End -->
-    <div class="slide">
-        <div class="slide-header">
-            <div class="slide-title">Asset Tracking End-to-End</div>
-            <div class="mini-logo"><span class="dot">dot</span>: design <span class="pop">pop</span></div>
-        </div>
+    <script>
+        // Tab Navigation
+        function switchTab(tabName) {
+            // Update URL display
+            const urls = {
+                'dashboard': 'https://app.powerbi.com/dotdesignpop/dashboard',
+                'warehouse': 'https://app.powerbi.com/dotdesignpop/warehouse',
+                'shipments': 'https://app.powerbi.com/dotdesignpop/shipments',
+                'warranty': 'https://app.powerbi.com/dotdesignpop/warranty-service'
+            };
+            document.getElementById('url-display').textContent = urls[tabName];
 
-        <p class="intro-text">
-            Complete visibility from <span class="highlight">warehouse receipt</span> through <span class="highlight">warranty expiration</span>.
-            Track every asset by SKU in inventory, by Serial Number in transit, and through the full service lifecycle.
-        </p>
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                }
+            });
 
-        <div class="asset-flow">
-            <div class="flow-step">
-                <div class="flow-icon">📦</div>
-                <div class="flow-title">Warehouse</div>
-                <div class="flow-desc">SKU-Level Inventory<br>Track by Product Code</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div class="flow-icon" style="background: #EF6C00;">🚚</div>
-                <div class="flow-title">Shipment</div>
-                <div class="flow-desc">Serial Number Assigned<br>Real-time Tracking</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div class="flow-icon green">✓</div>
-                <div class="flow-title">Delivery</div>
-                <div class="flow-desc">Client Receives Asset<br>Warranty Activated</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div class="flow-icon" style="background: #9C27B0;">🔧</div>
-                <div class="flow-title">Service</div>
-                <div class="flow-desc">Track Until Expiration<br>By Serial Number</div>
-            </div>
-        </div>
+            // Update pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page-' + tabName).classList.add('active');
+        }
 
-        <div class="feature-grid">
-            <div class="feature-box">
-                <h3>Warehouse / Storage</h3>
-                <p>Complete inventory visibility at the SKU level.</p>
-                <ul class="feature-list">
-                    <li>Pending Arrival tracking</li>
-                    <li>Available inventory counts</li>
-                    <li>Exited warehouse history</li>
-                    <li>Fill rate analytics</li>
-                </ul>
-            </div>
-            <div class="feature-box green">
-                <h3>Shipment Tracking</h3>
-                <p>Serial number visibility for every unit in transit.</p>
-                <ul class="feature-list">
-                    <li>Real-time status updates</li>
-                    <li>Carrier integration</li>
-                    <li>Delivery confirmation</li>
-                    <li>Client destination mapping</li>
-                </ul>
-            </div>
-            <div class="feature-box">
-                <h3>Warranty & Service</h3>
-                <p>Track assets from installation to warranty expiration.</p>
-                <ul class="feature-list">
-                    <li>Active warranty by serial</li>
-                    <li>Service request queue</li>
-                    <li>Repair scheduling</li>
-                    <li>Expiration alerts</li>
-                </ul>
-            </div>
-        </div>
+        // Dropdown Toggle
+        function toggleDropdown(trigger) {
+            const menu = trigger.nextElementSibling;
+            const isOpen = trigger.classList.contains('open');
 
-        <div class="slide-footer">
-            <div>Client Portal Preview</div>
-            <div>Confidential</div>
-        </div>
-    </div>
+            // Close all dropdowns first
+            document.querySelectorAll('.dropdown-trigger').forEach(t => {
+                t.classList.remove('open');
+                t.nextElementSibling.classList.remove('show');
+            });
 
+            // Open this one if it was closed
+            if (!isOpen) {
+                trigger.classList.add('open');
+                menu.classList.add('show');
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-dropdown')) {
+                document.querySelectorAll('.dropdown-trigger').forEach(t => {
+                    t.classList.remove('open');
+                    t.nextElementSibling.classList.remove('show');
+                });
+            }
+        });
+
+        // Select Option
+        function selectOption(item) {
+            const dropdown = item.closest('.custom-dropdown');
+            const trigger = dropdown.querySelector('.dropdown-trigger');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            const filterType = dropdown.dataset.filter;
+
+            // Update selection
+            menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
+
+            // Update trigger text
+            trigger.textContent = item.querySelector('span').textContent;
+
+            // Close dropdown
+            trigger.classList.remove('open');
+            menu.classList.remove('show');
+
+            // Update data based on selection
+            updateDashboardData(filterType, item.dataset.value);
+        }
+
+        // Update Dashboard Data Based on Filters
+        function updateDashboardData(filterType, value) {
+            // Sample data updates based on filter
+            const dataUpdates = {
+                'warehouse': {
+                    'all': { pending: '156', active: '1,247', kpiPending: '156', kpiActive: '1,247' },
+                    'pending': { pending: '156', active: '0', kpiPending: '156', kpiActive: '0' },
+                    'active': { pending: '0', active: '1,247', kpiPending: '0', kpiActive: '1,247' }
+                },
+                'shipments': {
+                    'all': { transit: '42', scheduling: '12', delivered: '3,892' },
+                    'picked-up': { transit: '42', scheduling: '0', delivered: '0' },
+                    'scheduling': { transit: '0', scheduling: '12', delivered: '0' },
+                    'history': { transit: '0', scheduling: '0', delivered: '3,892' }
+                },
+                'warranty': {
+                    'all': { warranties: '2,847', requests: '23', scheduled: '15' },
+                    'active-warranty': { warranties: '2,847', requests: '0', scheduled: '0' },
+                    'warranty-requests': { warranties: '0', requests: '23', scheduled: '0' },
+                    'in-scheduling': { warranties: '0', requests: '8', scheduled: '0' },
+                    'scheduled': { warranties: '0', requests: '0', scheduled: '15' }
+                }
+            };
+
+            if (filterType === 'warehouse' && dataUpdates.warehouse[value]) {
+                const data = dataUpdates.warehouse[value];
+                animateValue('kpi-pending', data.kpiPending);
+                animateValue('kpi-active-inv', data.kpiActive);
+                animateValue('sum-pending', data.pending);
+                animateValue('sum-active', data.active);
+                animateValue('dash-warehouse-count', data.active);
+            }
+
+            if (filterType === 'shipments' && dataUpdates.shipments[value]) {
+                const data = dataUpdates.shipments[value];
+                animateValue('kpi-transit', data.transit);
+                animateValue('sum-transit', data.transit);
+                animateValue('sum-scheduling', data.scheduling);
+                animateValue('sum-delivered', data.delivered);
+                animateValue('dash-shipments-count', data.transit !== '0' ? data.transit : data.scheduling);
+            }
+
+            if (filterType === 'warranty' && dataUpdates.warranty[value]) {
+                const data = dataUpdates.warranty[value];
+                animateValue('sum-warranties', data.warranties);
+                animateValue('sum-requests', data.requests);
+                animateValue('sum-scheduled', data.scheduled);
+                animateValue('dash-warranty-count', data.warranties);
+            }
+        }
+
+        // Animate value change
+        function animateValue(elementId, newValue) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.transform = 'scale(1.1)';
+                element.style.transition = 'transform 0.2s';
+                setTimeout(() => {
+                    element.textContent = newValue;
+                    element.style.transform = 'scale(1)';
+                }, 100);
+            }
+        }
+
+        // Clear All Filters
+        function clearAllFilters() {
+            document.querySelectorAll('.dropdown-item[data-value="all"]').forEach(item => {
+                const dropdown = item.closest('.custom-dropdown');
+                const trigger = dropdown.querySelector('.dropdown-trigger');
+                const menu = dropdown.querySelector('.dropdown-menu');
+
+                menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+
+                // Set default text based on filter type
+                const filterType = dropdown.dataset.filter;
+                const defaultTexts = {
+                    'warehouse': 'All Inventory',
+                    'shipments': 'All Shipments',
+                    'warranty': 'All Status'
+                };
+                trigger.textContent = defaultTexts[filterType] || 'All';
+            });
+
+            // Reset all data to defaults
+            animateValue('kpi-pending', '156');
+            animateValue('kpi-active-inv', '1,247');
+            animateValue('kpi-transit', '42');
+            animateValue('kpi-service', '23');
+            animateValue('sum-pending', '156');
+            animateValue('sum-active', '1,247');
+            animateValue('sum-exited', '3,892');
+            animateValue('sum-transit', '42');
+            animateValue('sum-scheduling', '12');
+            animateValue('sum-delivered', '3,892');
+            animateValue('sum-warranties', '2,847');
+            animateValue('sum-requests', '23');
+            animateValue('sum-scheduled', '15');
+            animateValue('dash-warehouse-count', '1,247');
+            animateValue('dash-shipments-count', '89');
+            animateValue('dash-delivered-count', '3,892');
+            animateValue('dash-warranty-count', '2,847');
+        }
+
+        // Search functionality for tables
+        document.querySelectorAll('.table-search').forEach(input => {
+            input.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const table = this.closest('.data-table').querySelector('tbody');
+                const rows = table.querySelectorAll('tr');
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
