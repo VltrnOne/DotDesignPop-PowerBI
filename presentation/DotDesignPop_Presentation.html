@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DotDesignPop - Power BI Dashboard Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            position: relative;
+            overflow: hidden;
+            page-break-after: always;
+            margin: 0 auto 20px;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF1493, #2563FF, #10B981);
+        }
+
+        /* Slide 1 - Cover */
+        .cover-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 120px;
+            font-weight: 800;
+            letter-spacing: -4px;
+        }
+
+        .logo .dot {
+            color: #FF1493;
+        }
+
+        .logo-subtitle {
+            font-size: 24px;
+            color: #888;
+            margin-top: -10px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+
+        .cover-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            background: linear-gradient(90deg, #FF1493, #2563FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: 24px;
+            color: #888;
+            max-width: 800px;
+        }
+
+        .cover-date {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Content slides */
+        .content-slide {
+            padding: 60px 80px;
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .slide-logo {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .slide-logo .dot {
+            color: #FF1493;
+        }
+
+        .slide-number {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .slide-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .slide-title span {
+            color: #FF1493;
+        }
+
+        /* Grid layouts */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
+
+        .four-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .card-icon.pink { background: rgba(255,20,147,0.2); }
+        .card-icon.blue { background: rgba(37,99,255,0.2); }
+        .card-icon.green { background: rgba(16,185,129,0.2); }
+        .card-icon.orange { background: rgba(245,158,11,0.2); }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .card-content {
+            color: #aaa;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .card-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-content li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #FF1493;
+        }
+
+        /* Stats */
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #FF1493, #2563FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #888;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Data table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            background: rgba(255,20,147,0.2);
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #FF1493;
+            border-bottom: 2px solid rgba(255,20,147,0.3);
+        }
+
+        .data-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* Feature list */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border-left: 3px solid #FF1493;
+        }
+
+        .feature-item.blue { border-left-color: #2563FF; }
+        .feature-item.green { border-left-color: #10B981; }
+        .feature-item.orange { border-left-color: #F59E0B; }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* Dashboard mockup */
+        .dashboard-mockup {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mockup-tab {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .mockup-tab.active {
+            background: #FF1493;
+            color: white;
+        }
+
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .mockup-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .mockup-card-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF1493;
+        }
+
+        .mockup-card-label {
+            font-size: 10px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .slide-footer {
+            position: absolute;
+            bottom: 20px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #444;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255,20,147,0.1), rgba(37,99,255,0.1));
+            border: 1px solid rgba(255,20,147,0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-title {
+            color: #FF1493;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* Slicer demo */
+        .slicer-demo {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .slicer-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slicer-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .slicer-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #FF1493;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #FF1493, #2563FF, #10B981);
+        }
+
+        .timeline-item {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #FF1493;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .timeline-item:nth-child(2) .timeline-dot { background: #2563FF; }
+        .timeline-item:nth-child(3) .timeline-dot { background: #10B981; }
+        .timeline-item:nth-child(4) .timeline-dot { background: #F59E0B; }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-desc {
+            font-size: 12px;
+            color: #888;
+        }
+
+        @media print {
+            .slide {
+                page-break-after: always;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Cover -->
+<div class="slide cover-slide">
+    <div class="logo-container">
+        <div class="logo"><span class="dot">dot</span>:</div>
+        <div class="logo-subtitle">design pop</div>
+    </div>
+    <h1 class="cover-title">Power BI Analytics Dashboard</h1>
+    <p class="cover-subtitle">Interactive Business Intelligence Solution for Inventory Management, Shipment Tracking, and Service Analytics</p>
+    <div class="cover-date">Prepared by VLTRN | December 2025</div>
+</div>
+
+<!-- Slide 2: Project Overview -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">02 / 08</div>
+    </div>
+    <h2 class="slide-title">Project <span>Overview</span></h2>
+
+    <div class="two-column">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon pink">📊</div>
+                    <div class="card-title">What We're Building</div>
+                </div>
+                <div class="card-content">
+                    <p>A comprehensive Power BI dashboard that transforms your operational data into actionable insights.</p>
+                    <ul style="margin-top: 15px;">
+                        <li>Real-time inventory tracking</li>
+                        <li>Shipment status monitoring</li>
+                        <li>Warranty & service analytics</li>
+                        <li>Revenue performance metrics</li>
+                        <li>Customer insights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="four-column" style="margin-bottom: 20px;">
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Dashboard Pages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">DAX Measures</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Slicer Filters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">11</div>
+                    <div class="stat-label">Data Tables</div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <div class="highlight-title">Key Benefit</div>
+                <p style="color: #aaa; font-size: 14px;">Select any region, client, or product - all metrics instantly update to show relevant data including costs, volumes, and KPIs.</p>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+<!-- Slide 3: Sample Data -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">03 / 08</div>
+    </div>
+    <h2 class="slide-title">Sample <span>Allocation Data</span></h2>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Client Warehouse</th>
+                <th>Contact</th>
+                <th>Order #</th>
+                <th>SKU</th>
+                <th>Quantity</th>
+                <th>State</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Client Warehouse 1</td>
+                <td>John Smith</td>
+                <td>0001-Dot-001</td>
+                <td>Wire Rack</td>
+                <td>3</td>
+                <td>NY</td>
+                <td>Standard</td>
+            </tr>
+            <tr>
+                <td>Client Warehouse 1</td>
+                <td>John Smith</td>
+                <td>0001-Dot-001</td>
+                <td>Shipper</td>
+                <td>5</td>
+                <td>NY</td>
+                <td>Standard</td>
+            </tr>
+            <tr>
+                <td>Client Warehouse 1</td>
+                <td>John Smith</td>
+                <td>0001-Dot-001</td>
+                <td>Fridge Model 1</td>
+                <td>2</td>
+                <td>NY</td>
+                <td>Standard</td>
+            </tr>
+            <tr>
+                <td>Client Warehouse 2</td>
+                <td>Chad Smith</td>
+                <td>0001-Dot-002</td>
+                <td>Shipper</td>
+                <td>10</td>
+                <td>CA</td>
+                <td>Standard</td>
+            </tr>
+            <tr>
+                <td>Client Warehouse 4</td>
+                <td>James Smith</td>
+                <td>0001-Dot-004</td>
+                <td>Fridge Model 1</td>
+                <td>10</td>
+                <td>TX</td>
+                <td>Standard</td>
+            </tr>
+            <tr>
+                <td>Client Warehouse 5</td>
+                <td>Sarah Smith</td>
+                <td>0001-Dot-005</td>
+                <td>Fridge Model 1</td>
+                <td>50</td>
+                <td>TX</td>
+                <td>Standard</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top: 30px;">
+        <div class="highlight-title">Data Integration</div>
+        <p style="color: #aaa; font-size: 14px;">Your allocation lists, inventory records, shipment data, and service records will all be connected in a unified data model with automatic relationship detection.</p>
+    </div>
+
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+<!-- Slide 4: Dashboard Structure -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">04 / 08</div>
+    </div>
+    <h2 class="slide-title">Dashboard <span>Structure</span></h2>
+
+    <div class="three-column">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon pink">🏠</div>
+                <div class="card-title">Dashboard Home</div>
+            </div>
+            <div class="card-content">
+                <ul>
+                    <li>Warehouse summary KPIs</li>
+                    <li>Active shipments overview</li>
+                    <li>Warranty & service status</li>
+                    <li>Operational health score</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon blue">📦</div>
+                <div class="card-title">Warehouse / Storage</div>
+            </div>
+            <div class="card-content">
+                <ul>
+                    <li>Pending Arrival units</li>
+                    <li>Available Inventory</li>
+                    <li>Exited Warehouse</li>
+                    <li>Inventory by SKU</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon green">🚚</div>
+                <div class="card-title">Active Shipments</div>
+            </div>
+            <div class="card-content">
+                <ul>
+                    <li>In Transit tracking</li>
+                    <li>Pending shipments</li>
+                    <li>Delivery status funnel</li>
+                    <li>Carrier performance</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon orange">🔧</div>
+                <div class="card-title">Warranty & Service</div>
+            </div>
+            <div class="card-content">
+                <ul>
+                    <li>Active Warranty (by SN)</li>
+                    <li>Service Requested</li>
+                    <li>Repair Scheduled</li>
+                    <li>Expired tracking</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon pink">💰</div>
+                <div class="card-title">Revenue Analytics</div>
+            </div>
+            <div class="card-content">
+                <ul>
+                    <li>Actual vs Budget</li>
+                    <li>Revenue decomposition</li>
+                    <li>Top customers</li>
+                    <li>Variance analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon blue">👥</div>
+                <div class="card-title">Customer Insights</div>
+            </div>
+            <div class="card-content">
+                <ul>
+                    <li>Customer segmentation</li>
+                    <li>VIP performance</li>
+                    <li>Regional breakdown</li>
+                    <li>Customer LTV</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+<!-- Slide 5: Interactive Slicers -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">05 / 08</div>
+    </div>
+    <h2 class="slide-title">Interactive <span>Filtering</span></h2>
+
+    <p style="color: #aaa; margin-bottom: 30px; font-size: 16px;">Every page includes slicer controls that dynamically filter all visuals. Select a region, client, or product - everything updates instantly.</p>
+
+    <div class="slicer-demo">
+        <div class="slicer-item">
+            <span class="slicer-label">Region</span>
+            <span class="slicer-value">Southeast ▼</span>
+        </div>
+        <div class="slicer-item">
+            <span class="slicer-label">Client</span>
+            <span class="slicer-value">All Clients ▼</span>
+        </div>
+        <div class="slicer-item">
+            <span class="slicer-label">Category</span>
+            <span class="slicer-value">Fridge Model 1 ▼</span>
+        </div>
+        <div class="slicer-item">
+            <span class="slicer-label">Year</span>
+            <span class="slicer-value">2024</span>
+        </div>
+        <div class="slicer-item">
+            <span class="slicer-label">Quarter</span>
+            <span class="slicer-value">Q1 Q2 Q3 Q4</span>
+        </div>
+    </div>
+
+    <div class="dashboard-mockup">
+        <div class="mockup-header">
+            <div class="mockup-tab active">Dashboard</div>
+            <div class="mockup-tab">Warehouse</div>
+            <div class="mockup-tab">Shipments</div>
+            <div class="mockup-tab">Warranty</div>
+        </div>
+        <div class="mockup-grid">
+            <div class="mockup-card">
+                <div class="mockup-card-value">24</div>
+                <div class="mockup-card-label">Pending Arrival</div>
+            </div>
+            <div class="mockup-card">
+                <div class="mockup-card-value" style="color: #10B981;">156</div>
+                <div class="mockup-card-label">Available</div>
+            </div>
+            <div class="mockup-card">
+                <div class="mockup-card-value" style="color: #2563FF;">89</div>
+                <div class="mockup-card-label">Exited</div>
+            </div>
+            <div class="mockup-card">
+                <div class="mockup-card-value" style="color: #F59E0B;">12</div>
+                <div class="mockup-card-label">In Transit</div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 15px; font-size: 12px; color: #666;">← Values update based on slicer selections →</p>
+    </div>
+
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+<!-- Slide 6: Key Features -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">06 / 08</div>
+    </div>
+    <h2 class="slide-title">Key <span>Features</span></h2>
+
+    <div class="feature-list">
+        <div class="feature-item">
+            <div>
+                <div class="feature-title">Real-Time Data Refresh</div>
+                <div class="feature-desc">Connect directly to your data sources for automatic updates</div>
+            </div>
+        </div>
+        <div class="feature-item blue">
+            <div>
+                <div class="feature-title">Multi-Select Filtering</div>
+                <div class="feature-desc">Select multiple regions, clients, or products simultaneously</div>
+            </div>
+        </div>
+        <div class="feature-item green">
+            <div>
+                <div class="feature-title">Serial Number Tracking</div>
+                <div class="feature-desc">Warranty status tracked at the individual unit level</div>
+            </div>
+        </div>
+        <div class="feature-item orange">
+            <div>
+                <div class="feature-title">Time Intelligence</div>
+                <div class="feature-desc">YoY, MoM, YTD comparisons built into every metric</div>
+            </div>
+        </div>
+        <div class="feature-item">
+            <div>
+                <div class="feature-title">Custom Branding</div>
+                <div class="feature-desc">DotDesignPop theme with your brand colors throughout</div>
+            </div>
+        </div>
+        <div class="feature-item blue">
+            <div>
+                <div class="feature-title">Export Capabilities</div>
+                <div class="feature-desc">Export to PDF, PowerPoint, or Excel with one click</div>
+            </div>
+        </div>
+        <div class="feature-item green">
+            <div>
+                <div class="feature-title">Drill-Through Pages</div>
+                <div class="feature-desc">Click any data point to see detailed breakdowns</div>
+            </div>
+        </div>
+        <div class="feature-item orange">
+            <div>
+                <div class="feature-title">Mobile Responsive</div>
+                <div class="feature-desc">Access dashboards on tablet and mobile devices</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+<!-- Slide 7: DSD Distribution Data -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">07 / 08</div>
+    </div>
+    <h2 class="slide-title">Distribution <span>Network</span></h2>
+
+    <div class="two-column">
+        <div>
+            <table class="data-table" style="font-size: 12px;">
+                <thead>
+                    <tr>
+                        <th>Sales Director</th>
+                        <th>RSM</th>
+                        <th>DSD Main House</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Josh Arrington</td>
+                        <td>Mallory Wendt</td>
+                        <td>Lakeshore Beverage</td>
+                    </tr>
+                    <tr>
+                        <td>Josh Arrington</td>
+                        <td>Mallory Wendt</td>
+                        <td>Superior Beverage</td>
+                    </tr>
+                    <tr>
+                        <td>Josh Arrington</td>
+                        <td>Mallory Wendt</td>
+                        <td>LaMonica Beverages</td>
+                    </tr>
+                    <tr>
+                        <td>Josh Arrington</td>
+                        <td>Mallory Wendt</td>
+                        <td>ZT Distribution</td>
+                    </tr>
+                    <tr>
+                        <td>Nick McClafferty</td>
+                        <td>Brian Hicks</td>
+                        <td>Donaghy Sacramento</td>
+                    </tr>
+                    <tr>
+                        <td>Nick McClafferty</td>
+                        <td>Brian Hicks</td>
+                        <td>Donaghy Fresno</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon green">📋</div>
+                    <div class="card-title">Product Allocation Tracking</div>
+                </div>
+                <div class="card-content">
+                    <table class="data-table" style="font-size: 11px;">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Available</th>
+                                <th>Remaining</th>
+                                <th>Cost/Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pallet Skirt</td>
+                                <td>1,200</td>
+                                <td>178</td>
+                                <td>$26.88</td>
+                            </tr>
+                            <tr>
+                                <td>20 Case Shipper</td>
+                                <td>5,000</td>
+                                <td>688</td>
+                                <td>$25.00</td>
+                            </tr>
+                            <tr>
+                                <td>Taco Header</td>
+                                <td>2,000</td>
+                                <td>870</td>
+                                <td>$49.15</td>
+                            </tr>
+                            <tr>
+                                <td>Foldable Standee</td>
+                                <td>1,750</td>
+                                <td>458</td>
+                                <td>$22.80</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+<!-- Slide 8: Next Steps -->
+<div class="slide content-slide">
+    <div class="slide-header">
+        <div class="slide-logo"><span class="dot">dot</span>:</div>
+        <div class="slide-number">08 / 08</div>
+    </div>
+    <h2 class="slide-title">Next <span>Steps</span></h2>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot">1</div>
+            <div class="timeline-title">Data Review</div>
+            <div class="timeline-desc">Validate data sources<br>& requirements</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-title">Build</div>
+            <div class="timeline-desc">Develop dashboard<br>& measures</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-title">Review</div>
+            <div class="timeline-desc">Client review<br>& feedback</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">4</div>
+            <div class="timeline-title">Deploy</div>
+            <div class="timeline-desc">Publish to<br>Power BI Service</div>
+        </div>
+    </div>
+
+    <div class="two-column" style="margin-top: 40px;">
+        <div class="highlight-box">
+            <div class="highlight-title">Deliverables Included</div>
+            <ul style="color: #aaa; font-size: 14px; list-style: none;">
+                <li style="padding: 5px 0;">✓ Power BI Desktop file (.pbix)</li>
+                <li style="padding: 5px 0;">✓ Custom theme file (.json)</li>
+                <li style="padding: 5px 0;">✓ DAX measures documentation</li>
+                <li style="padding: 5px 0;">✓ Import instructions guide</li>
+                <li style="padding: 5px 0;">✓ Slicer reference guide</li>
+            </ul>
+        </div>
+        <div class="highlight-box">
+            <div class="highlight-title">Contact</div>
+            <p style="color: #aaa; font-size: 14px; line-height: 1.8;">
+                <strong style="color: #FF1493;">VLTRN</strong><br>
+                Info@VLTRN.agency<br>
+                +63 954 462 3187<br>
+                www.VLTRN.agency
+            </p>
+        </div>
+    </div>
+
+    <div class="slide-footer">
+        <span>VLTRN Business Intelligence</span>
+        <span>www.vltrn.agency</span>
+    </div>
+</div>
+
+</body>
+</html>
