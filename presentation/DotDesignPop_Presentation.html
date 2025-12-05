@@ -1430,7 +1430,10 @@
                 animateValue('sum-transit', data.transit);
                 animateValue('sum-scheduling', data.scheduling);
                 animateValue('sum-delivered', data.delivered);
-                animateValue('dash-shipments-count', data.transit !== '0' ? data.transit : data.scheduling);
+                // Active Shipments count shows in-transit or scheduling (active shipments)
+                animateValue('dash-shipments-count', data.transit !== '0' ? data.transit : (data.scheduling !== '0' ? data.scheduling : '0'));
+                // Delivered count correlates with Shipment History
+                animateValue('dash-delivered-count', data.delivered);
             }
 
             if (filterType === 'warranty' && dataUpdates.warranty[value]) {
