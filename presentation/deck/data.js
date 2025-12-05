@@ -1,21 +1,27 @@
 /**
  * Saint James Cooler Portfolio - JOB #6456
- * Complete Data Architecture for Power BI Demo
+ * Data V - Powered by VLTRN
  *
- * SOURCE DATA:
+ * SOURCE DATA (from Forecast Tracker):
  * - Fit Cooler (Bodega/C-Store Model): 79 units - SKU: SJ-FIT-001
  * - SC190L Hero (G10 EQ): 44 units - SKU: SJ-SC190L
  * - SC68L Hero (G1.5 Eq): 118 units - SKU: SJ-SC68L
  * - Slimline Cooler (Smaller G9 EQ): 180 units - SKU: SJ-SLIM-001
- * - TOTAL: 421 units delivered to First Track in February 2024
+ * - TOTAL: 421 units ordered for First Track distribution
  *
- * DISTRIBUTION:
- * - Pending Arrival: 48 units (next shipment coming)
- * - Active in Storage: 280 units across 6 locations
- * - Ready to Ship/Exited: 93 units
- * - In Transit: 32 units
- * - Scheduling Delivery: 16 units
- * - Delivered (with warranty): 247 units
+ * BUSINESS LOGIC:
+ * - Forecast Tracker upload = PENDING (shipments en route TO warehouse)
+ * - Arrival Document upload = ACTIVE (confirmed arrived at warehouse)
+ * - Outbound shipping = EXITED (shipped OUT to clients)
+ *
+ * DEMO DISTRIBUTION:
+ * - Pending (en route to warehouse): 48 units
+ * - Active (confirmed in storage): 278 units
+ * - Exited (shipped to clients): 95 units
+ *   - In Transit: 32 units
+ *   - Scheduling Delivery: 16 units
+ *   - Delivered: 47 units
+ * - Warranty Active: 240 units
  * - Service Requests: 7 units
  */
 
@@ -133,9 +139,9 @@ const CARRIERS = [
 // STATUS DEFINITIONS
 // ============================================================================
 const WAREHOUSE_STATUS = {
-    PENDING: 'pending',      // Not yet arrived at warehouse
-    ACTIVE: 'active',        // In storage at warehouse
-    EXITED: 'exited'         // Left warehouse (shipped)
+    PENDING: 'pending',      // Shipment en route TO warehouse (from Forecast Tracker)
+    ACTIVE: 'active',        // Confirmed arrived at warehouse (from Arrival Document)
+    EXITED: 'exited'         // Shipped OUT to clients
 };
 
 const SHIPMENT_STATUS = {
@@ -260,14 +266,13 @@ function distributeUnits(units) {
     // Shuffle for random distribution
     const shuffled = shuffleArray([...units]);
 
-    // Distribution counts - CORRECTED DATA
-    // 421 units delivered to First Track in February = ALL received at warehouse
-    // Pending = freight en route TO warehouse (0 - no current inbound freight)
-    // Active = units currently IN warehouse
-    // Exited = units that have LEFT warehouse for delivery
-    const pendingCount = 0;  // No freight currently en route to warehouse
-    const exitedCount = 95;  // Units shipped out to clients
-    const activeCount = 421 - exitedCount; // 326 units still in warehouse
+    // Distribution counts - CORRECTED BUSINESS LOGIC
+    // Forecast Tracker file = PENDING (shipments en route TO warehouse)
+    // Arrival Document = ACTIVE (confirmed arrived at warehouse)
+    // Outbound shipping = EXITED (shipped OUT to clients)
+    const pendingCount = 48;   // Shipments en route TO warehouse (from forecast tracker)
+    const exitedCount = 95;    // Units shipped OUT to clients
+    const activeCount = 278;   // Units confirmed arrived at warehouse (421 - 48 - 95)
 
     // Further breakdown of exited (95 total)
     const inTransitCount = 32;    // Currently on trucks to clients
@@ -497,12 +502,12 @@ const DATA = {
     // Summary counts
     summary: {
         totalUnits: 421,
-        pendingArrival: 0,      // No freight currently en route to warehouse
-        activeInventory: 326,   // Units currently IN warehouse (421 - 95 exited)
-        exitedWarehouse: 95,    // Units that have LEFT warehouse
+        pendingArrival: 48,      // Shipments en route TO warehouse (from forecast tracker)
+        activeInventory: 278,    // Confirmed arrived at warehouse (from arrival document)
+        exitedWarehouse: 95,     // Shipped OUT to clients
         inTransit: 32,
         schedulingDelivery: 16,
-        delivered: 247,
+        delivered: 47,           // Recently delivered (95 - 32 - 16)
         activeWarranties: 240,
         warrantyRequests: 7,
         serviceScheduled: 3,
