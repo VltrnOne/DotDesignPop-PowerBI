@@ -1,9 +1,10 @@
 {
   "name": "DotDesignPop_Dashboard",
   "description": "Complete Power BI Dashboard for DotDesign Pop Commercial Coolers",
-  "version": "1.0",
+  "version": "2.0",
   "author": "VLTRN",
   "createdDate": "2025-12-04",
+  "lastModified": "2025-12-05",
   "theme": "DotDesignPop_Theme.json",
   "pageSize": {
     "type": "Widescreen",
@@ -13,58 +14,158 @@
   "pages": [
     {
       "name": "Executive Dashboard",
-      "displayName": "Home",
+      "displayName": "Dashboard",
       "ordinal": 0,
       "isHidden": false,
+      "description": "Summary recap of Warehouse, Shipments, and Warranty/Service subcategories",
       "visuals": [
         {
-          "name": "card_TotalRevenue",
-          "type": "card",
-          "position": {"x": 20, "y": 80, "width": 200, "height": 120},
+          "name": "header_Warehouse",
+          "type": "textbox",
+          "position": {"x": 20, "y": 70, "width": 380, "height": 30},
           "config": {
-            "title": "Total Revenue",
-            "dataField": "[Total Revenue]",
-            "format": "$#,##0"
+            "text": "WAREHOUSE / STORAGE",
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "color": "#FF1493"
           }
         },
         {
-          "name": "card_GrossProfit",
+          "name": "card_PendingArrival",
           "type": "card",
-          "position": {"x": 240, "y": 80, "width": 200, "height": 120},
+          "position": {"x": 20, "y": 100, "width": 120, "height": 90},
           "config": {
-            "title": "Gross Profit",
-            "dataField": "[Gross Profit]",
-            "format": "$#,##0"
+            "title": "Pending Arrival",
+            "dataField": "[Pending Arrival]",
+            "format": "#,##0",
+            "backgroundColor": "#FFF5F9"
           }
         },
         {
-          "name": "card_ProfitMargin",
+          "name": "card_AvailableInventory",
           "type": "card",
-          "position": {"x": 460, "y": 80, "width": 200, "height": 120},
+          "position": {"x": 150, "y": 100, "width": 120, "height": 90},
           "config": {
-            "title": "Profit Margin",
-            "dataField": "[Profit Margin %]",
-            "format": "#,##0.0%"
+            "title": "Available",
+            "dataField": "[Available Inventory]",
+            "format": "#,##0",
+            "backgroundColor": "#F0FDF4"
           }
         },
         {
-          "name": "card_YoYGrowth",
+          "name": "card_ExitedWarehouse",
           "type": "card",
-          "position": {"x": 680, "y": 80, "width": 200, "height": 120},
+          "position": {"x": 280, "y": 100, "width": 120, "height": 90},
           "config": {
-            "title": "YoY Growth",
-            "dataField": "[Revenue YoY Growth]",
-            "format": "#,##0.0%",
-            "conditionalFormatting": {
-              "positive": "#10B981",
-              "negative": "#EF4444"
-            }
+            "title": "Exited",
+            "dataField": "[Exited Warehouse]",
+            "format": "#,##0",
+            "backgroundColor": "#EFF6FF"
+          }
+        },
+        {
+          "name": "header_Shipments",
+          "type": "textbox",
+          "position": {"x": 420, "y": 70, "width": 380, "height": 30},
+          "config": {
+            "text": "ACTIVE SHIPMENTS",
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "color": "#2563FF"
+          }
+        },
+        {
+          "name": "card_ShipmentsInTransit",
+          "type": "card",
+          "position": {"x": 420, "y": 100, "width": 120, "height": 90},
+          "config": {
+            "title": "In Transit",
+            "dataField": "[Shipments In Transit]",
+            "format": "#,##0",
+            "backgroundColor": "#FEF3C7"
+          }
+        },
+        {
+          "name": "card_ShipmentsPending",
+          "type": "card",
+          "position": {"x": 550, "y": 100, "width": 120, "height": 90},
+          "config": {
+            "title": "Pending",
+            "dataField": "[Shipments Pending]",
+            "format": "#,##0",
+            "backgroundColor": "#FEE2E2"
+          }
+        },
+        {
+          "name": "card_ActiveShipments",
+          "type": "card",
+          "position": {"x": 680, "y": 100, "width": 120, "height": 90},
+          "config": {
+            "title": "Active Total",
+            "dataField": "[Active Shipments]",
+            "format": "#,##0",
+            "backgroundColor": "#DBEAFE"
+          }
+        },
+        {
+          "name": "header_WarrantyService",
+          "type": "textbox",
+          "position": {"x": 820, "y": 70, "width": 440, "height": 30},
+          "config": {
+            "text": "WARRANTY & SERVICE",
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "color": "#10B981"
+          }
+        },
+        {
+          "name": "card_ActiveWarranties",
+          "type": "card",
+          "position": {"x": 820, "y": 100, "width": 110, "height": 90},
+          "config": {
+            "title": "Active Warranty",
+            "dataField": "[Active Warranties]",
+            "format": "#,##0",
+            "backgroundColor": "#D1FAE5"
+          }
+        },
+        {
+          "name": "card_ServiceRequested",
+          "type": "card",
+          "position": {"x": 940, "y": 100, "width": 110, "height": 90},
+          "config": {
+            "title": "Requests",
+            "dataField": "[Service Requested]",
+            "format": "#,##0",
+            "backgroundColor": "#FEF3C7"
+          }
+        },
+        {
+          "name": "card_RepairScheduled",
+          "type": "card",
+          "position": {"x": 1060, "y": 100, "width": 100, "height": 90},
+          "config": {
+            "title": "Scheduled",
+            "dataField": "[Repair Scheduled]",
+            "format": "#,##0",
+            "backgroundColor": "#DBEAFE"
+          }
+        },
+        {
+          "name": "card_ExpiredWarranties",
+          "type": "card",
+          "position": {"x": 1170, "y": 100, "width": 90, "height": 90},
+          "config": {
+            "title": "Expired",
+            "dataField": "[Expired Warranties]",
+            "format": "#,##0",
+            "backgroundColor": "#FEE2E2"
           }
         },
         {
           "name": "lineChart_RevenueTrend",
           "type": "lineChart",
-          "position": {"x": 20, "y": 220, "width": 560, "height": 280},
+          "position": {"x": 20, "y": 210, "width": 560, "height": 250},
           "config": {
             "title": "Revenue Trend - Current vs Last Year",
             "xAxis": "Date_Dimension[Month_Name]",
@@ -73,95 +174,133 @@
           }
         },
         {
-          "name": "map_RevenueByState",
-          "type": "filledMap",
-          "position": {"x": 600, "y": 220, "width": 380, "height": 280},
+          "name": "funnel_ShipmentStatus",
+          "type": "funnel",
+          "position": {"x": 600, "y": 210, "width": 330, "height": 250},
           "config": {
-            "title": "Revenue by State",
-            "location": "Geography[State]",
-            "values": "[Total Revenue]",
-            "colorSaturation": "intensity"
+            "title": "Shipment Status Pipeline",
+            "category": "Shipments[Delivery_Status]",
+            "values": "[Total Shipments]"
           }
         },
         {
-          "name": "donut_RevenueByCategory",
+          "name": "donut_WarrantyBreakdown",
           "type": "donutChart",
-          "position": {"x": 20, "y": 520, "width": 280, "height": 180},
+          "position": {"x": 950, "y": 210, "width": 310, "height": 250},
           "config": {
-            "title": "Revenue by Product Category",
-            "values": "[Total Revenue]",
-            "legend": "SKU_Master[Category]"
+            "title": "Warranty vs Non-Warranty Service",
+            "values": ["[Warranty Service Requests]", "[Non-Warranty Service Requests]"],
+            "legend": "Warranty Type"
           }
         },
         {
-          "name": "kpi_ServiceCompletion",
-          "type": "kpi",
-          "position": {"x": 320, "y": 520, "width": 280, "height": 180},
+          "name": "stackedBar_WarehouseStatus",
+          "type": "stackedBarChart",
+          "position": {"x": 20, "y": 480, "width": 400, "height": 220},
           "config": {
-            "title": "Service Completion Rate",
-            "value": "[Service Completion %]",
-            "target": 90,
-            "trendAxis": "Date_Dimension[Month]"
+            "title": "Warehouse Inventory by SKU",
+            "yAxis": "SKU_Master[Product_Name]",
+            "xAxis": "[Stock Count]",
+            "legend": "Inventory[Status]"
           }
         },
         {
-          "name": "column_ShipmentsByRegion",
-          "type": "clusteredColumnChart",
-          "position": {"x": 620, "y": 520, "width": 360, "height": 180},
+          "name": "gauge_OperationalHealth",
+          "type": "gauge",
+          "position": {"x": 440, "y": 480, "width": 200, "height": 140},
           "config": {
-            "title": "Shipments by Region",
-            "xAxis": "Geography[Region]",
-            "yAxis": ["[Total Shipments]", "[Delivered Shipments]"]
+            "title": "Operational Health",
+            "value": "[Operational Health Score]",
+            "min": 0,
+            "max": 100,
+            "target": 85
+          }
+        },
+        {
+          "name": "card_ServiceBacklog",
+          "type": "card",
+          "position": {"x": 440, "y": 630, "width": 200, "height": 70},
+          "config": {
+            "title": "Service Backlog",
+            "dataField": "[Service Backlog]",
+            "format": "#,##0"
+          }
+        },
+        {
+          "name": "matrix_ServiceBySerial",
+          "type": "matrix",
+          "position": {"x": 660, "y": 480, "width": 600, "height": 220},
+          "config": {
+            "title": "Service Status by Serial Number",
+            "rows": "Service_Records[Serial_Number]",
+            "columns": "Service_Records[Service_Status]",
+            "values": ["[Total Service Requests]"]
           }
         },
         {
           "name": "slicer_Year",
           "type": "slicer",
-          "position": {"x": 900, "y": 80, "width": 100, "height": 60},
+          "position": {"x": 1200, "y": 10, "width": 60, "height": 50},
           "config": {
             "field": "Date_Dimension[Year]",
-            "type": "dropdown"
-          }
-        },
-        {
-          "name": "slicer_Quarter",
-          "type": "slicer",
-          "position": {"x": 1010, "y": 80, "width": 150, "height": 60},
-          "config": {
-            "field": "Date_Dimension[Quarter]",
-            "type": "buttons"
-          }
-        },
-        {
-          "name": "slicer_VIPStatus",
-          "type": "slicer",
-          "position": {"x": 1170, "y": 80, "width": 90, "height": 60},
-          "config": {
-            "field": "Clients[VIP_Status]",
             "type": "dropdown"
           }
         }
       ]
     },
     {
-      "name": "Inventory Analytics",
-      "displayName": "Inventory",
+      "name": "Warehouse Storage",
+      "displayName": "Warehouse",
       "ordinal": 1,
       "isHidden": false,
+      "description": "Warehouse inventory tracking: Pending Arrival, Available Inventory, Exited Warehouse",
       "visuals": [
         {
-          "name": "card_UnitsInStock",
-          "type": "card",
-          "position": {"x": 20, "y": 80, "width": 200, "height": 100},
+          "name": "header_PendingArrival",
+          "type": "textbox",
+          "position": {"x": 20, "y": 60, "width": 400, "height": 25},
           "config": {
-            "title": "Units in Stock",
-            "dataField": "[Units in Stock]"
+            "text": "PENDING ARRIVAL",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#FF1493"
+          }
+        },
+        {
+          "name": "card_PendingArrival_Detail",
+          "type": "card",
+          "position": {"x": 20, "y": 85, "width": 150, "height": 80},
+          "config": {
+            "title": "Units Pending",
+            "dataField": "[Pending Arrival]",
+            "format": "#,##0"
+          }
+        },
+        {
+          "name": "header_AvailableInventory",
+          "type": "textbox",
+          "position": {"x": 440, "y": 60, "width": 400, "height": 25},
+          "config": {
+            "text": "AVAILABLE INVENTORY",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#10B981"
+          }
+        },
+        {
+          "name": "card_AvailableInventory_Detail",
+          "type": "card",
+          "position": {"x": 440, "y": 85, "width": 150, "height": 80},
+          "config": {
+            "title": "Units Available",
+            "dataField": "[Available Inventory]",
+            "format": "#,##0"
           }
         },
         {
           "name": "card_InventoryValue",
           "type": "card",
-          "position": {"x": 240, "y": 80, "width": 200, "height": 100},
+          "position": {"x": 600, "y": 85, "width": 150, "height": 80},
           "config": {
             "title": "Inventory Value",
             "dataField": "[Inventory Value]",
@@ -169,18 +308,30 @@
           }
         },
         {
-          "name": "card_UnitsShipped",
-          "type": "card",
-          "position": {"x": 460, "y": 80, "width": 200, "height": 100},
+          "name": "header_ExitedWarehouse",
+          "type": "textbox",
+          "position": {"x": 860, "y": 60, "width": 400, "height": 25},
           "config": {
-            "title": "Units Shipped",
-            "dataField": "[Units Shipped]"
+            "text": "EXITED WAREHOUSE",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#2563FF"
+          }
+        },
+        {
+          "name": "card_ExitedWarehouse_Detail",
+          "type": "card",
+          "position": {"x": 860, "y": 85, "width": 150, "height": 80},
+          "config": {
+            "title": "Units Exited",
+            "dataField": "[Exited Warehouse]",
+            "format": "#,##0"
           }
         },
         {
           "name": "card_AvgDaysInStock",
           "type": "card",
-          "position": {"x": 680, "y": 80, "width": 200, "height": 100},
+          "position": {"x": 1020, "y": 85, "width": 150, "height": 80},
           "config": {
             "title": "Avg Days in Stock",
             "dataField": "[Avg Days in Stock]"
@@ -358,46 +509,134 @@
       ]
     },
     {
-      "name": "Service Analytics",
-      "displayName": "Service",
+      "name": "Warranty Service",
+      "displayName": "Warranty & Service",
       "ordinal": 3,
       "isHidden": false,
+      "description": "Active Warranty (by SN), Service Requested, Repair Scheduled, Expired",
       "visuals": [
         {
-          "name": "card_TotalServiceRequests",
-          "type": "card",
-          "position": {"x": 20, "y": 80, "width": 180, "height": 100},
+          "name": "header_ActiveWarranty",
+          "type": "textbox",
+          "position": {"x": 20, "y": 60, "width": 300, "height": 25},
           "config": {
-            "title": "Total Service Requests",
-            "dataField": "[Total Service Requests]"
+            "text": "ACTIVE WARRANTY (by Serial Number)",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#10B981"
+          }
+        },
+        {
+          "name": "card_ActiveWarranties_WS",
+          "type": "card",
+          "position": {"x": 20, "y": 85, "width": 140, "height": 80},
+          "config": {
+            "title": "Active Warranties",
+            "dataField": "[Active Warranties]",
+            "backgroundColor": "#D1FAE5"
+          }
+        },
+        {
+          "name": "card_UnitsUnderWarranty",
+          "type": "card",
+          "position": {"x": 170, "y": 85, "width": 140, "height": 80},
+          "config": {
+            "title": "Units Covered",
+            "dataField": "[Units Under Warranty]",
+            "backgroundColor": "#ECFDF5"
+          }
+        },
+        {
+          "name": "header_ServiceRequested",
+          "type": "textbox",
+          "position": {"x": 330, "y": 60, "width": 200, "height": 25},
+          "config": {
+            "text": "SERVICE REQUESTED",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#F59E0B"
+          }
+        },
+        {
+          "name": "card_ServiceRequested_WS",
+          "type": "card",
+          "position": {"x": 330, "y": 85, "width": 140, "height": 80},
+          "config": {
+            "title": "New Requests",
+            "dataField": "[Service Requested]",
+            "backgroundColor": "#FEF3C7"
+          }
+        },
+        {
+          "name": "card_ServicePending",
+          "type": "card",
+          "position": {"x": 480, "y": 85, "width": 140, "height": 80},
+          "config": {
+            "title": "Pending Schedule",
+            "dataField": "[Service Pending]",
+            "backgroundColor": "#FFFBEB"
+          }
+        },
+        {
+          "name": "header_RepairScheduled",
+          "type": "textbox",
+          "position": {"x": 640, "y": 60, "width": 200, "height": 25},
+          "config": {
+            "text": "REPAIR SCHEDULED",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#2563FF"
+          }
+        },
+        {
+          "name": "card_RepairScheduled_WS",
+          "type": "card",
+          "position": {"x": 640, "y": 85, "width": 140, "height": 80},
+          "config": {
+            "title": "Scheduled",
+            "dataField": "[Repair Scheduled]",
+            "backgroundColor": "#DBEAFE"
           }
         },
         {
           "name": "card_CompletedServices",
           "type": "card",
-          "position": {"x": 220, "y": 80, "width": 180, "height": 100},
+          "position": {"x": 790, "y": 85, "width": 140, "height": 80},
           "config": {
-            "title": "Completed Services",
-            "dataField": "[Completed Services]"
+            "title": "Completed",
+            "dataField": "[Completed Services]",
+            "backgroundColor": "#E0E7FF"
           }
         },
         {
-          "name": "card_ServiceCompletionPct",
-          "type": "card",
-          "position": {"x": 420, "y": 80, "width": 180, "height": 100},
+          "name": "header_Expired",
+          "type": "textbox",
+          "position": {"x": 950, "y": 60, "width": 200, "height": 25},
           "config": {
-            "title": "Service Completion %",
-            "dataField": "[Service Completion %]",
-            "format": "#,##0.0%"
+            "text": "EXPIRED WARRANTY",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#EF4444"
           }
         },
         {
-          "name": "card_AvgServiceDays",
+          "name": "card_ExpiredWarranties_WS",
           "type": "card",
-          "position": {"x": 620, "y": 80, "width": 180, "height": 100},
+          "position": {"x": 950, "y": 85, "width": 140, "height": 80},
           "config": {
-            "title": "Avg Service Days",
-            "dataField": "[Avg Service Days]"
+            "title": "Expired",
+            "dataField": "[Expired Warranties]",
+            "backgroundColor": "#FEE2E2"
+          }
+        },
+        {
+          "name": "card_WarrantyExpiringSoon",
+          "type": "card",
+          "position": {"x": 1100, "y": 85, "width": 140, "height": 80},
+          "config": {
+            "title": "Expiring Soon",
+            "dataField": "[Warranty Expiring Soon]",
+            "backgroundColor": "#FEF3C7"
           }
         },
         {
@@ -716,7 +955,7 @@
   "navigation": {
     "type": "buttons",
     "position": "top",
-    "pages": ["Home", "Inventory", "Shipments", "Service", "Revenue", "Customers", "Operations"]
+    "pages": ["Dashboard", "Warehouse", "Shipments", "Warranty & Service", "Revenue", "Customers", "Operations"]
   },
   "bookmarks": [
     {

@@ -338,5 +338,204 @@ Avg Customer Satisfaction =
 AVERAGE(Service_Records[Customer_Satisfaction])
 
 // =============================================================================
+// FOLDER: Warehouse / Storage (NEW TAB)
+// =============================================================================
+
+// Units expected but not yet received in warehouse
+Pending Arrival =
+CALCULATE(
+    COUNTROWS(Inventory),
+    Inventory[Status] IN {"Pending", "Ordered", "In Transit to Warehouse"}
+)
+
+// Units physically in warehouse and available for allocation
+Available Inventory =
+CALCULATE(
+    COUNTROWS(Inventory),
+    Inventory[Status] IN {"In Stock", "Available", "Ready"}
+)
+
+// Units that have left the warehouse (shipped out)
+Exited Warehouse =
+CALCULATE(
+    COUNTROWS(Inventory),
+    Inventory[Status] IN {"Shipped", "Delivered", "In Transit", "Deployed"}
+)
+
+// Total warehouse throughput
+Warehouse Throughput =
+[Pending Arrival] + [Available Inventory] + [Exited Warehouse]
+
+// Warehouse utilization rate
+Warehouse Fill Rate % =
+DIVIDE([Available Inventory], [Warehouse Throughput], 0) * 100
+
+// Units pending by SKU (for drill-down)
+Pending by SKU =
+CALCULATE(
+    COUNTROWS(Inventory),
+    Inventory[Status] IN {"Pending", "Ordered", "In Transit to Warehouse"}
+)
+
+// =============================================================================
+// FOLDER: Active Shipments (NEW TAB)
+// =============================================================================
+
+// Shipments currently in transit
+Shipments In Transit =
+CALCULATE(
+    COUNTROWS(Shipments),
+    Shipments[Delivery_Status] = "In Transit"
+)
+
+// Shipments pending pickup/processing
+Shipments Pending =
+CALCULATE(
+    COUNTROWS(Shipments),
+    Shipments[Delivery_Status] IN {"Pending", "Processing", "Awaiting Pickup"}
+)
+
+// Shipments out for delivery
+Shipments Out for Delivery =
+CALCULATE(
+    COUNTROWS(Shipments),
+    Shipments[Delivery_Status] = "Out for Delivery"
+)
+
+// Shipments delivered (completed)
+Shipments Completed =
+CALCULATE(
+    COUNTROWS(Shipments),
+    Shipments[Delivery_Status] = "Delivered"
+)
+
+// Active shipments (not yet delivered)
+Active Shipments =
+[Shipments In Transit] + [Shipments Pending] + [Shipments Out for Delivery]
+
+// Shipment status breakdown
+Shipment Status Summary =
+CONCATENATEX(
+    SUMMARIZE(
+        Shipments,
+        Shipments[Delivery_Status],
+        "Count", COUNTROWS(Shipments)
+    ),
+    Shipments[Delivery_Status] & ": " & [Count],
+    ", "
+)
+
+// =============================================================================
+// FOLDER: Warranty & Service (NEW TAB)
+// =============================================================================
+
+// Active warranties by Serial Number count
+Active Warranties =
+CALCULATE(
+    DISTINCTCOUNT(Service_Records[Serial_Number]),
+    Service_Records[Warranty_Status] = "Under Warranty"
+)
+
+// Units with active warranty (from Inventory perspective)
+Units Under Warranty =
+VAR WarrantyDays = 365  // Default warranty period
+RETURN
+CALCULATE(
+    COUNTROWS(Inventory),
+    FILTER(
+        Inventory,
+        DATEDIFF(Inventory[Received_Date], TODAY(), DAY) <=
+            RELATED(SKU_Master[Warranty_Period_Days])
+    )
+)
+
+// Service requests submitted (not yet scheduled)
+Service Requested =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Service_Status] IN {"Requested", "Open", "Submitted", "Pending Review"}
+)
+
+// Repairs that have been scheduled
+Repair Scheduled =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Service_Status] IN {"Scheduled", "In Progress", "Assigned"},
+    NOT(ISBLANK(Service_Records[Scheduled_Date]))
+)
+
+// Expired warranties
+Expired Warranties =
+CALCULATE(
+    DISTINCTCOUNT(Service_Records[Serial_Number]),
+    Service_Records[Warranty_Status] = "Expired"
+)
+
+// Warranty expiring soon (next 30 days)
+Warranty Expiring Soon =
+VAR WarrantyDays = 365
+RETURN
+CALCULATE(
+    COUNTROWS(Inventory),
+    FILTER(
+        Inventory,
+        VAR DaysOwned = DATEDIFF(Inventory[Received_Date], TODAY(), DAY)
+        VAR WarrantyPeriod = RELATED(SKU_Master[Warranty_Period_Days])
+        RETURN
+            DaysOwned >= WarrantyPeriod - 30 &&
+            DaysOwned < WarrantyPeriod
+    )
+)
+
+// Service pending (requested but not scheduled)
+Service Pending =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Service_Status] IN {"Requested", "Open", "Submitted"},
+    ISBLANK(Service_Records[Scheduled_Date])
+)
+
+// Warranty vs Non-Warranty service breakdown
+Warranty Service Requests =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Warranty_Status] = "Under Warranty"
+)
+
+Non-Warranty Service Requests =
+CALCULATE(
+    COUNTROWS(Service_Records),
+    Service_Records[Warranty_Status] <> "Under Warranty"
+)
+
+// =============================================================================
+// FOLDER: Dashboard Summary KPIs
+// =============================================================================
+
+// Warehouse summary for dashboard
+Warehouse Summary Units =
+"Pending: " & [Pending Arrival] & " | Available: " & [Available Inventory]
+
+// Shipments summary for dashboard
+Shipments Summary =
+"In Transit: " & [Shipments In Transit] & " | Active: " & [Active Shipments]
+
+// Warranty summary for dashboard
+Warranty Summary =
+"Active: " & [Active Warranties] & " | Requests: " & [Total Service Requests] & " | Scheduled: " & [Repair Scheduled]
+
+// Service backlog
+Service Backlog =
+[Service Requested] + [Service Pending]
+
+// Overall operational health score (0-100)
+Operational Health Score =
+VAR DeliveryScore = MIN([On-Time Delivery %], 100)
+VAR ServiceScore = MIN([Service Completion %], 100)
+VAR WarrantyScore = DIVIDE([Warranty Service Requests], [Total Service Requests], 0) * 100
+RETURN
+    (DeliveryScore * 0.4) + (ServiceScore * 0.4) + ((100 - WarrantyScore) * 0.2)
+
+// =============================================================================
 // END OF MEASURES
 // =============================================================================
