@@ -882,19 +882,23 @@
                             <span class="summary-item-value" id="sum-active">1,247</span>
                         </div>
                         <div class="summary-item">
-                            <span class="summary-item-label">Exited (Shipped)</span>
-                            <span class="summary-item-value" id="sum-exited">3,892</span>
+                            <span class="summary-item-label">Exited Warehouse</span>
+                            <span class="summary-item-value" id="sum-exited">89</span>
                         </div>
                     </div>
                     <div class="summary-card green">
                         <h3>Shipment Summary</h3>
                         <div class="summary-item">
-                            <span class="summary-item-label">Picked Up / In Transit</span>
+                            <span class="summary-item-label">Active Shipments</span>
+                            <span class="summary-item-value" id="sum-active-ship">89</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-label">In Transit</span>
                             <span class="summary-item-value" id="sum-transit">42</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-item-label">Scheduling Delivery</span>
-                            <span class="summary-item-value" id="sum-scheduling">12</span>
+                            <span class="summary-item-value" id="sum-scheduling">47</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-item-label">Delivered (History)</span>
@@ -942,6 +946,10 @@
                                     <div class="dropdown-item" data-value="active" onclick="selectOption(this)">
                                         <div class="dropdown-checkbox"></div>
                                         <span>Active Inventory</span>
+                                    </div>
+                                    <div class="dropdown-item" data-value="exited" onclick="selectOption(this)">
+                                        <div class="dropdown-checkbox"></div>
+                                        <span>Exited Warehouse</span>
                                     </div>
                                 </div>
                             </div>
@@ -994,52 +1002,60 @@
 
                 <div class="data-table">
                     <div class="table-header">
-                        <div class="table-title">Inventory by SKU</div>
-                        <input type="text" class="table-search" placeholder="Search SKU or Product...">
+                        <div class="table-title">Inventory by Location / SKU / Serial Number</div>
+                        <input type="text" class="table-search" placeholder="Search Location, SKU, or Serial...">
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>SKU Code</th>
-                                <th>Product Name</th>
                                 <th>Location</th>
-                                <th>Qty Available</th>
-                                <th>Qty Pending</th>
-                                <th>Status</th>
+                                <th>SKU</th>
+                                <th>Product Name</th>
+                                <th>Serial Number</th>
                             </tr>
                         </thead>
                         <tbody id="warehouse-table">
                             <tr>
-                                <td><strong>DDP-WR-001</strong></td>
+                                <td><strong>Phoenix Warehouse</strong></td>
+                                <td>DDP-WR-001</td>
                                 <td>Wire Rack Display</td>
-                                <td>Phoenix Warehouse</td>
-                                <td>245</td>
-                                <td>50</td>
-                                <td><span class="status-badge in-stock">In Stock</span></td>
+                                <td>DDP-2024-001247</td>
                             </tr>
                             <tr>
-                                <td><strong>DDP-SH-002</strong></td>
+                                <td><strong>Phoenix Warehouse</strong></td>
+                                <td>DDP-WR-001</td>
+                                <td>Wire Rack Display</td>
+                                <td>DDP-2024-001248</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phoenix Warehouse</strong></td>
+                                <td>DDP-SH-002</td>
                                 <td>Shipper Unit</td>
-                                <td>Phoenix Warehouse</td>
-                                <td>180</td>
-                                <td>25</td>
-                                <td><span class="status-badge in-stock">In Stock</span></td>
+                                <td>DDP-2024-001249</td>
                             </tr>
                             <tr>
-                                <td><strong>DDP-FR-003</strong></td>
+                                <td><strong>Dallas Warehouse</strong></td>
+                                <td>DDP-FR-003</td>
                                 <td>Fridge Model 1</td>
-                                <td>Dallas Warehouse</td>
-                                <td>0</td>
-                                <td>75</td>
-                                <td><span class="status-badge pending">Pending</span></td>
+                                <td>DDP-2024-001250</td>
                             </tr>
                             <tr>
-                                <td><strong>DDP-CR-004</strong></td>
+                                <td><strong>Dallas Warehouse</strong></td>
+                                <td>DDP-FR-003</td>
+                                <td>Fridge Model 1</td>
+                                <td>DDP-2024-001251</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Atlanta Warehouse</strong></td>
+                                <td>DDP-CR-004</td>
                                 <td>Cooler Rack</td>
-                                <td>Atlanta Warehouse</td>
-                                <td>122</td>
-                                <td>0</td>
-                                <td><span class="status-badge in-stock">In Stock</span></td>
+                                <td>DDP-2024-001252</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Atlanta Warehouse</strong></td>
+                                <td>DDP-CR-004</td>
+                                <td>Cooler Rack</td>
+                                <td>DDP-2024-001253</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1106,20 +1122,20 @@
 
                 <div class="kpi-row">
                     <div class="kpi-card">
+                        <div class="kpi-label">Active Shipments</div>
+                        <div class="kpi-value blue">89</div>
+                    </div>
+                    <div class="kpi-card">
                         <div class="kpi-label">Picked Up / In Transit</div>
-                        <div class="kpi-value blue">42</div>
+                        <div class="kpi-value">42</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Scheduling Delivery</div>
-                        <div class="kpi-value orange">12</div>
+                        <div class="kpi-value orange">47</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Out for Delivery</div>
-                        <div class="kpi-value">8</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Delivered Today</div>
-                        <div class="kpi-value green">27</div>
+                        <div class="kpi-label">Delivered (History)</div>
+                        <div class="kpi-value green">3,892</div>
                     </div>
                 </div>
 
@@ -1416,9 +1432,9 @@
                     'active': { pending: '0', active: '1,247', kpiPending: '0', kpiActive: '1,247' }
                 },
                 'shipments': {
-                    'all': { transit: '42', scheduling: '12', delivered: '3,892' },
+                    'all': { transit: '42', scheduling: '47', delivered: '3,892' },  // 42+47=89 Active Shipments
                     'picked-up': { transit: '42', scheduling: '0', delivered: '0' },
-                    'scheduling': { transit: '0', scheduling: '12', delivered: '0' },
+                    'scheduling': { transit: '0', scheduling: '47', delivered: '0' },
                     'history': { transit: '0', scheduling: '0', delivered: '3,892' }
                 },
                 'warranty': {
@@ -1445,8 +1461,12 @@
                 animateValue('sum-transit', data.transit);
                 animateValue('sum-scheduling', data.scheduling);
                 animateValue('sum-delivered', data.delivered);
+                // Calculate active shipments (in-transit + scheduling = exited warehouse but not yet delivered)
+                const activeShipCount = (parseInt(data.transit) || 0) + (parseInt(data.scheduling) || 0);
+                animateValue('sum-active-ship', activeShipCount.toString());
+                animateValue('sum-exited', activeShipCount.toString());  // Exited Warehouse = Active Shipments
                 // Active Shipments count shows in-transit or scheduling (active shipments)
-                animateValue('dash-shipments-count', data.transit !== '0' ? data.transit : (data.scheduling !== '0' ? data.scheduling : '0'));
+                animateValue('dash-shipments-count', activeShipCount.toString());
                 // Delivered count correlates with Shipment History
                 animateValue('dash-delivered-count', data.delivered);
             }
@@ -1500,9 +1520,10 @@
             animateValue('kpi-service', '23');
             animateValue('sum-pending', '156');
             animateValue('sum-active', '1,247');
-            animateValue('sum-exited', '3,892');
+            animateValue('sum-exited', '89');  // Correlates with Active Shipments
+            animateValue('sum-active-ship', '89');  // Active Shipments = Exited Warehouse
             animateValue('sum-transit', '42');
-            animateValue('sum-scheduling', '12');
+            animateValue('sum-scheduling', '47');
             animateValue('sum-delivered', '3,892');
             animateValue('sum-warranties', '2,847');
             animateValue('sum-requests', '23');
